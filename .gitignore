@@ -1,4 +1,5 @@
 ERProject/Library/
 ERProject/Temp/
+ERProject/.vs/
 *.sln
 *.csproj
