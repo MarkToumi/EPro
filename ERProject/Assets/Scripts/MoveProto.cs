@@ -4,6 +4,7 @@ using UnityEngine;
 using ButtonName;
 
 public class MoveProto : MonoBehaviour {
+    private float dx;
 	private float dy;
     private bool[] Players;
     private int pNums;
@@ -17,6 +18,7 @@ public class MoveProto : MonoBehaviour {
             if (this.gameObject.name == "Player0" + (i + 1).ToString()) Players[i] = true;
             else Players[i] = false;
         }
+        dx = 0;
         dy = 0;
         gamePadNums = Input.GetJoystickNames().Length;
         Debug.Log(gamePadNums);
@@ -29,8 +31,10 @@ public class MoveProto : MonoBehaviour {
             if (gamePadNums > 0)
             {
                 if (GamePad01.Fire()) Debug.Log("きたこれ");
+                dx = GamePad01.XL();
                 dy = GamePad01.YL();
                 transform.position += transform.forward * dy;
+                transform.Rotate(0, dx, 0);
             }
             else KeyboardInput();
         }
@@ -39,8 +43,10 @@ public class MoveProto : MonoBehaviour {
             if (gamePadNums > 1)
             {
                 if (GamePad02.Fire()) Debug.Log("キタコレ");
+                dx = GamePad02.XL();
                 dy = GamePad02.YL();
                 transform.position += transform.forward * dy;
+                transform.Rotate(0, dx, 0);
             }
             else KeyboardInput();
         }
@@ -49,7 +55,9 @@ public class MoveProto : MonoBehaviour {
     void KeyboardInput()
     {
         if (KeyBoard.Fire()) Debug.Log("ktkr");
+        dx = KeyBoard.X();
         dy = KeyBoard.Y();
         transform.position += transform.forward * dy;
+        transform.Rotate(0, dx, 0);
     }
 }

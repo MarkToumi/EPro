@@ -1,15 +1,19 @@
 fileFormatVersion: 2
 guid: 72978ef13c1585143b755774766827f0
-timeCreated: 1491800823
+timeCreated: 1491905730
 licenseType: Free
 ModelImporter:
   serializedVersion: 19
   fileIDToRecycleName:
-    100000: //RootNode
-    400000: //RootNode
-    2300000: //RootNode
-    3300000: //RootNode
-    4300000: Mesh.001
+    100000: Mesh
+    100002: //RootNode
+    100004: "\u30B5\u30F3"
+    400000: Mesh
+    400002: //RootNode
+    400004: "\u30B5\u30F3"
+    2300000: Mesh
+    3300000: Mesh
+    4300000: Mesh
   materials:
     importMaterials: 1
     materialName: 0
