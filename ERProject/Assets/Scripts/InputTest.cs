@@ -24,9 +24,8 @@ public class InputTest : MonoBehaviour {
          * GamePad[番号].[取りたいもの]()で取得できます
          * 上から攻撃、ジャンプ（念のため）、横移動、縦移動です
         */ 
-        if (GamePad01.Fire()) Debug.Log("エグゼイド");
-        pad_x = GamePad01.X();
-        pad_y = GamePad01.Y();
+        pad_x = GamePad01.XR();
+        pad_y = GamePad01.YR();
         Debug.Log("横移動@Axis:" + pad_x);
         Debug.Log("縦移動@Axis:" + pad_y);
     }
