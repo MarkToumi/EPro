@@ -25,7 +25,6 @@ public class InputTest : MonoBehaviour {
          * 上から攻撃、ジャンプ（念のため）、横移動、縦移動です
         */ 
         if (GamePad01.Fire()) Debug.Log("エグゼイド");
-        if (GamePad01.Jump()) Debug.Log("EXCITE");
         pad_x = GamePad01.X();
         pad_y = GamePad01.Y();
         Debug.Log("横移動@Axis:" + pad_x);
