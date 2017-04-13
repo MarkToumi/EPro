@@ -21,11 +21,11 @@ namespace ButtonName
         private static string horizontal_R = "GamePad01_X_R";
         private static string vertical_R = "GamePad01_Y_R";
         private static string fire = "GamePad01_Fire";
-        public static float XL() { return Input.GetAxis(horizontal_L); }
-        public static float YL() { return Input.GetAxis(vertical_L); }
-        public static float XR() { return Input.GetAxis(horizontal_R); }
-        public static float YR() { return Input.GetAxis(vertical_R); }
-        public static bool Fire() { return Input.GetButtonDown(fire); }
+        public static float LStick_X { get { return Input.GetAxis(horizontal_L); } }
+        public static float LStick_Y { get { return Input.GetAxis(vertical_L); } }
+        public static float RStick_X { get{ return Input.GetAxis(horizontal_R); } }
+        public static float RStick_Y { get { return Input.GetAxis(vertical_R); } }
+        public static bool Fire { get { return Input.GetButtonDown(fire); } }
     }
 
     public class GamePad02 : MonoBehaviour
@@ -35,11 +35,11 @@ namespace ButtonName
         private static string horizontal_R = "GamePad02_X_R";
         private static string vertical_R = "GamePad02_Y_R";
         private static string fire = "GamePad02_Fire";
-        public static float XL() { return Input.GetAxis(horizontal_L); }
-        public static float YL() { return Input.GetAxis(vertical_L); }
-        public static float XR() { return Input.GetAxis(horizontal_R); }
-        public static float YR() { return Input.GetAxis(vertical_R); }
-        public static bool Fire() { return Input.GetButtonDown(fire); }
+        public static float LStick_X { get { return Input.GetAxis(horizontal_L); } }
+        public static float LStick_Y { get { return Input.GetAxis(vertical_L); } }
+        public static float RStick_X { get{ return Input.GetAxis(horizontal_R); } }
+        public static float RStick_Y { get { return Input.GetAxis(vertical_R); } }
+        public static bool Fire { get { return Input.GetButtonDown(fire); } }
     }
 
     public class GamePad03 : MonoBehaviour
@@ -49,11 +49,11 @@ namespace ButtonName
         private static string horizontal_R = "GamePad03_X_R";
         private static string vertical_R = "GamePad03_Y_R";
         private static string fire = "GamePad03_Fire";
-        public static float XL() { return Input.GetAxis(horizontal_L); }
-        public static float YL() { return Input.GetAxis(vertical_L); }
-        public static float XR() { return Input.GetAxis(horizontal_R); }
-        public static float YR() { return Input.GetAxis(vertical_R); }
-        public static bool Fire() { return Input.GetButtonDown(fire); }
+        public static float LStick_X { get { return Input.GetAxis(horizontal_L); } }
+        public static float LStick_Y { get { return Input.GetAxis(vertical_L); } }
+        public static float RStick_X { get{ return Input.GetAxis(horizontal_R); } }
+        public static float RStick_Y { get { return Input.GetAxis(vertical_R); } }
+        public static bool Fire { get { return Input.GetButtonDown(fire); } }
     }
 
     public class GamePad04 : MonoBehaviour
@@ -63,11 +63,11 @@ namespace ButtonName
         private static string horizontal_R = "GamePad04_X_R";
         private static string vertical_R = "GamePad04_Y_R";
         private static string fire = "GamePad04_Fire";
-        public static float XL() { return Input.GetAxis(horizontal_L); }
-        public static float YL() { return Input.GetAxis(vertical_L); }
-        public static float XR() { return Input.GetAxis(horizontal_R); }
-        public static float YR() { return Input.GetAxis(vertical_R); }
-        public static bool Fire() { return Input.GetButtonDown(fire); }
+        public static float LStick_X { get { return Input.GetAxis(horizontal_L); } }
+        public static float LStick_Y { get { return Input.GetAxis(vertical_L); } }
+        public static float RStick_X { get{ return Input.GetAxis(horizontal_R); } }
+        public static float RStick_Y { get { return Input.GetAxis(vertical_R); } }
+        public static bool Fire { get { return Input.GetButtonDown(fire); } }
     }
 
     public class KeyBoard : MonoBehaviour
@@ -75,8 +75,8 @@ namespace ButtonName
         private static string horizontal = "Key_X";
         private static string vertical = "Key_Y";
         private static string fire = "Key_Fire";
-        public static float X() { return Input.GetAxis(horizontal); }
-        public static float Y() { return Input.GetAxis(vertical); }
-        public static bool Fire() { return Input.GetButtonDown(fire); }
+        public static float X { get { return Input.GetAxis(horizontal); } }
+        public static float Y { get { return Input.GetAxis(vertical); } }
+        public static bool Fire { get { return Input.GetButtonDown(fire); } }
     }
 }

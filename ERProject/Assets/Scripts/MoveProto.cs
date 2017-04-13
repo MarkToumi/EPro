@@ -30,9 +30,9 @@ public class MoveProto : MonoBehaviour {
         {
             if (gamePadNums > 0)
             {
-                if (GamePad01.Fire()) Debug.Log("きたこれ");
-                dx = GamePad01.XL();
-                dy = GamePad01.YL();
+                if (GamePad01.Fire) Debug.Log("きたこれ");
+                dx = GamePad01.RStick_X;
+                dy = GamePad01.LStick_Y;
                 transform.position += transform.forward * dy;
                 transform.Rotate(0, dx, 0);
             }
@@ -42,9 +42,9 @@ public class MoveProto : MonoBehaviour {
         {
             if (gamePadNums > 1)
             {
-                if (GamePad02.Fire()) Debug.Log("キタコレ");
-                dx = GamePad02.XL();
-                dy = GamePad02.YL();
+                if (GamePad02.Fire) Debug.Log("キタコレ");
+                dx = GamePad02.RStick_X;
+                dy = GamePad02.LStick_Y;
                 transform.position += transform.forward * dy;
                 transform.Rotate(0, dx, 0);
             }
@@ -54,9 +54,9 @@ public class MoveProto : MonoBehaviour {
 
     void KeyboardInput()
     {
-        if (KeyBoard.Fire()) Debug.Log("ktkr");
-        dx = KeyBoard.X();
-        dy = KeyBoard.Y();
+        if (KeyBoard.Fire) Debug.Log("ktkr");
+        dx = KeyBoard.X;
+        dy = KeyBoard.Y;
         transform.position += transform.forward * dy;
         transform.Rotate(0, dx, 0);
     }
