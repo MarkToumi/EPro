@@ -12,7 +12,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace ButtonName
+namespace GamePad
 {
     public class GamePad01 : MonoBehaviour
     {

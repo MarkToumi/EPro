@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using ButtonName;
+using GamePad;
 
 public class MoveProto : MonoBehaviour {
     private float dx;

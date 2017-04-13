@@ -7,7 +7,7 @@ using UnityEngine;
  * それらをまとめたシングルトンっぽいのを作りました
  * 以後使うかわかりませんが、ButtonName を using してください
 */
-using ButtonName;
+using GamePad;
 
 public class InputTest : MonoBehaviour {
     private float pad_x;
