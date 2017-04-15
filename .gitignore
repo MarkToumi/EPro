@@ -4,3 +4,6 @@ ERProject/.vs/
 ERProject/.vscode/
 *.sln
 *.csproj
+ERProject/Assets/Resources/Materials.meta
+ERProject/Assets/Resources/Materials/No Name.mat
+ERProject/Assets/Resources/Materials/No Name.mat.meta
