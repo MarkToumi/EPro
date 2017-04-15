@@ -70,6 +70,8 @@ public class PlayerController : MonoBehaviour {
 		}
 		if(oldHp > hp)
 			Debug.Log("残り" + hp + "!!");
+		if(!this.gameObject.activeSelf)
+			Respawn();
 	}
 
 	void OnCollisionEnter(Collision collision)
@@ -110,8 +112,19 @@ public class PlayerController : MonoBehaviour {
 	}
 
 	void Attack(){
-		if(otherPlayer != null)
+		if(otherPlayer != null){
 			otherPlayer.HP = otherPlayer.HP - 1;
+		}
+		if(otherPlayer.HP == 0) Debug.Log("ゲーム終了");
+		else otherPlayer.gameObject.SetActive(false);
+	}
+
+	void Respawn(){
+		float x = Random.Range(0, 40f);
+		float z = Random.Range(0, 40f);
+		Vector3 newPos = new Vector3(x, transform.position.y, z);
+		transform.position = newPos;
+		this.gameObject.SetActive(true);
 	}
 
 	IEnumerator EffectExit(float delay)
