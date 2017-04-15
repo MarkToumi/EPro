@@ -1,0 +1,30 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class Safety : MonoBehaviour {
+	private PlayerController pc;
+	// Use this for initialization
+	void Start () {
+		pc = this.GetComponentInParent<PlayerController>();
+		Debug.Log(pc);
+	}
+	
+	// Update is called once per frame
+	void Update () {
+		
+	}
+	void OnTriggerEnter(Collider other)
+	{
+		if(other.tag == "Player") {
+			pc.Safety = true;
+			pc.otherPlayer = other.GetComponent<PlayerController>();
+		}
+	}
+
+	void OnTriggerExit(Collider other)
+	{
+		pc.Safety = false;
+		pc.otherPlayer = null;
+	}
+}

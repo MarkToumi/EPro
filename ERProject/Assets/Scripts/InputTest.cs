@@ -12,10 +12,12 @@ using GamePad;
 public class InputTest : MonoBehaviour {
     private float pad_x;
     private float pad_y;
+    private float test;
 	// Use this for initialization
 	void Start () {
         pad_x = 0;
         pad_y = 0;
+        test = 0;
 	}
 	
 	// Update is called once per frame
@@ -28,5 +30,7 @@ public class InputTest : MonoBehaviour {
         pad_y = GamePad01.LStick_Y;
         Debug.Log("横移動@Axis:" + pad_x);
         Debug.Log("縦移動@Axis:" + pad_y);
+        test = Input.GetAxis("GamePad01_Y_Key");
+        Debug.Log(test);
     }
 }

@@ -20,11 +20,15 @@ namespace GamePad
         private static string vertical_L = "GamePad01_Y_L";
         private static string horizontal_R = "GamePad01_X_R";
         private static string vertical_R = "GamePad01_Y_R";
+        private static string horizontal_Key = "GamePad01_X_Key";
+        private static string vertical_Key = "GamePad01_Y_Key";
         private static string fire = "GamePad01_Fire";
         public static float LStick_X { get { return Input.GetAxis(horizontal_L); } }
         public static float LStick_Y { get { return Input.GetAxis(vertical_L); } }
-        public static float RStick_X { get{ return Input.GetAxis(horizontal_R); } }
+        public static float RStick_X { get { return Input.GetAxis(horizontal_R); } }
         public static float RStick_Y { get { return Input.GetAxis(vertical_R); } }
+        public static float Key_X { get { return Input.GetAxis(horizontal_Key); } }
+        public static float Key_Y { get { return Input.GetAxis(vertical_Key); } }
         public static bool Fire { get { return Input.GetButtonDown(fire); } }
     }
 
@@ -34,11 +38,15 @@ namespace GamePad
         private static string vertical_L = "GamePad02_Y_L";
         private static string horizontal_R = "GamePad02_X_R";
         private static string vertical_R = "GamePad02_Y_R";
+        private static string horizontal_Key = "GamePad02_X_Key";
+        private static string vertical_Key = "GamePad02_Y_Key";
         private static string fire = "GamePad02_Fire";
         public static float LStick_X { get { return Input.GetAxis(horizontal_L); } }
         public static float LStick_Y { get { return Input.GetAxis(vertical_L); } }
         public static float RStick_X { get{ return Input.GetAxis(horizontal_R); } }
         public static float RStick_Y { get { return Input.GetAxis(vertical_R); } }
+        public static float Key_X { get { return Input.GetAxis(horizontal_Key); } }
+        public static float Key_Y { get { return Input.GetAxis(vertical_Key); } }
         public static bool Fire { get { return Input.GetButtonDown(fire); } }
     }
 
@@ -48,11 +56,15 @@ namespace GamePad
         private static string vertical_L = "GamePad03_Y_L";
         private static string horizontal_R = "GamePad03_X_R";
         private static string vertical_R = "GamePad03_Y_R";
+        private static string horizontal_Key = "GamePad03_X_Key";
+        private static string vertical_Key = "GamePad03_Y_Key";
         private static string fire = "GamePad03_Fire";
         public static float LStick_X { get { return Input.GetAxis(horizontal_L); } }
         public static float LStick_Y { get { return Input.GetAxis(vertical_L); } }
         public static float RStick_X { get{ return Input.GetAxis(horizontal_R); } }
         public static float RStick_Y { get { return Input.GetAxis(vertical_R); } }
+        public static float Key_X { get { return Input.GetAxis(horizontal_Key); } }
+        public static float Key_Y { get { return Input.GetAxis(vertical_Key); } }
         public static bool Fire { get { return Input.GetButtonDown(fire); } }
     }
 
@@ -62,11 +74,15 @@ namespace GamePad
         private static string vertical_L = "GamePad04_Y_L";
         private static string horizontal_R = "GamePad04_X_R";
         private static string vertical_R = "GamePad04_Y_R";
+        private static string horizontal_Key = "GamePad04_X_Key";
+        private static string vertical_Key = "GamePad04_Y_Key";
         private static string fire = "GamePad04_Fire";
         public static float LStick_X { get { return Input.GetAxis(horizontal_L); } }
         public static float LStick_Y { get { return Input.GetAxis(vertical_L); } }
         public static float RStick_X { get{ return Input.GetAxis(horizontal_R); } }
         public static float RStick_Y { get { return Input.GetAxis(vertical_R); } }
+        public static float Key_X { get { return Input.GetAxis(horizontal_Key); } }
+        public static float Key_Y { get { return Input.GetAxis(vertical_Key); } }
         public static bool Fire { get { return Input.GetButtonDown(fire); } }
     }
 
