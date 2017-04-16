@@ -5,7 +5,7 @@ using UnityEngine;
 public class GameController : MonoBehaviour {
 	[SerializeField] PlayerController Player01;
 	[SerializeField] PlayerController Player02;
-	[SerializeField] int maxHp;
+	[SerializeField] int startHp = 3;
     [SerializeField] float releaseTime;
     [SerializeField] float respawnWait;
     [SerializeField] GameObject itemInstance;
@@ -43,19 +43,20 @@ public class GameController : MonoBehaviour {
         }
 	}
 	void SetPlayer(){
-		Player01.HP = maxHp;
+		Player01.HP = startHp;
         Player01.ReleaseTime = releaseTime;
         Player01.RespawnWait = respawnWait;
-		Player02.HP = maxHp;
+		Player02.HP = startHp;
         Player02.ReleaseTime = releaseTime;
         Player02.RespawnWait = respawnWait;
 	}
 
 	void CreateItem(){
+        Debug.Log("アイテム生成");
 		itemNum = Random.Range(0, 3);
 		float x = Random.Range(0, 40f);
 		float z = Random.Range(0, 40f);
-		Vector3 newPos = new Vector3(x, 0.5f, z);
+		Vector3 newPos = new Vector3(x, 1.5f, z);
 		itemObjects[itemCount] = Instantiate(itemInstance, newPos, Quaternion.Euler(0, 0, 0));
 		item[itemCount] = itemObjects[itemCount].GetComponent<Item>();
 		item[itemCount].ItemNum = itemNum;

@@ -14,7 +14,12 @@ public class Item : MonoBehaviour {
 		
 	}
 
-	public int ItemNum { 
+    void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.tag == "Player") Debug.Log("当たった");
+    }
+
+    public int ItemNum { 
 		get { return this.itemNum; }
 		set { this.itemNum = value; }
 	}

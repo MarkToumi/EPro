@@ -33,16 +33,8 @@ public class PlayerController : MonoBehaviour {
 	void Update () {
 		if(Players[0])
 		{
-			if(GamePad01.LStick_X <= 0.1f && GamePad01.LStick_X >= -0.1f){
-				move_X = GamePad01.Key_X;
-			}
-			else
-				move_X = GamePad01.LStick_X;
-			if(GamePad01.LStick_Y <= 0.1f && GamePad01.LStick_Y >= -0.1f){
-				move_Y = GamePad01.Key_Y;
-			}
-			else
-				move_Y = GamePad01.LStick_Y;
+			move_X = GamePad01.LStick_X;
+			move_Y = GamePad01.LStick_Y;
 			Move(move_X, move_Y);
 			if(safety) {
 				if(GamePad01.Fire){
@@ -53,17 +45,9 @@ public class PlayerController : MonoBehaviour {
 		}
 		else if(Players[1])
 		{
-			if(GamePad02.LStick_X <= 0.1f && GamePad02.LStick_X >= -0.1f){
-				move_X = GamePad02.Key_X;
-			}
-			else
-				move_X = GamePad02.LStick_X;
-			if(GamePad02.LStick_Y <= 0.1f && GamePad02.LStick_Y >= -0.1f){
-				move_Y = GamePad02.Key_Y;
-			}
-			else
-				move_Y = GamePad02.LStick_Y;
-			Move(move_X, move_Y);
+            move_X = GamePad02.LStick_X;
+            move_Y = GamePad02.LStick_Y;
+            Move(move_X, move_Y);
 			if(safety){
 				if(GamePad02.Fire){
 					Debug.Log("Fire!");
@@ -83,18 +67,27 @@ public class PlayerController : MonoBehaviour {
 	void OnCollisionEnter(Collision collision)
 	{
 		if(collision.gameObject.tag == "Item") {
-			Debug.Log("アイテムゲット&使用");
+			Debug.Log("アイテムゲット&使用 コリジョン");
 			Item item = collision.gameObject.GetComponent<Item>();
 			ItemUse(item.ItemNum);
 			Destroy(collision.gameObject);
 		}
 	}
 
-	void Move(float x, float y)
+    void OnTriggerEnter(Collider other)
+    {
+        if(other.gameObject.tag == "Item"){
+            Debug.Log("アイテムゲット&使用 コライダー");
+            Item item = other.gameObject.GetComponent<Item>();
+            ItemUse(item.ItemNum);
+            Destroy(other.gameObject);
+        }
+    }
+
+    void Move(float x, float y)
 	{
-		Debug.Log("x:" + x + " y" + y);
-		transform.position += transform.forward * y;
-		transform.Rotate(0, x, 0);
+        Vector3 newPos = new Vector3(transform.position.x + x, transform.position.y, transform.position.z + y);
+        transform.position = newPos;
 	}
 
 	void ItemUse(int itemNum)
@@ -143,8 +136,9 @@ public class PlayerController : MonoBehaviour {
 
 	IEnumerator EffectExit(float delay)
 	 {
-		 yield return new WaitForSeconds(delay);
-		 Debug.Log("強化解除");
+        Debug.Log(delay);
+		yield return new WaitForSeconds(delay);
+		Debug.Log("強化解除");
 	 }
 
     IEnumerator Respawn(float delay)

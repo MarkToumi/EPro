@@ -7,7 +7,6 @@ public class Safety : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		pc = this.GetComponentInParent<PlayerController>();
-		Debug.Log(pc);
 	}
 	
 	// Update is called once per frame
