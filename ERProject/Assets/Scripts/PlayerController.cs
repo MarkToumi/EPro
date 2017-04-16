@@ -12,7 +12,9 @@ public class PlayerController : MonoBehaviour {
 	private int pNums;
 	private bool[] Players;
 	private IEnumerator effectExit;
-	private float waitTime;
+    private IEnumerator respawn;
+    private float releaseTime;
+    private float respawnWait;
 	public PlayerController otherPlayer;
 	// Use this for initialization
 	void Start () {
@@ -23,7 +25,8 @@ public class PlayerController : MonoBehaviour {
             if (this.gameObject.name == "Player0" + (i + 1).ToString()) Players[i] = true;
             else Players[i] = false;
         }
-		effectExit = EffectExit(waitTime);
+		effectExit = EffectExit(releaseTime);
+        respawn = Respawn(respawnWait);
 	}
 	
 	// Update is called once per frame
@@ -70,8 +73,11 @@ public class PlayerController : MonoBehaviour {
 		}
 		if(oldHp > hp)
 			Debug.Log("残り" + hp + "!!");
-		if(!this.gameObject.activeSelf)
-			Respawn();
+        if (!this.gameObject.activeSelf){
+            //Respawn();  関数バージョン
+            //StartCoroutine(respawn); コルーチンバージョン
+            Debug.Log("kita");
+        }
 	}
 
 	void OnCollisionEnter(Collision collision)
@@ -94,20 +100,28 @@ public class PlayerController : MonoBehaviour {
 	void ItemUse(int itemNum)
 	{
 		switch(itemNum){
-		case 0:
-			Debug.Log("回復");
-			hp++;
-			break;
-		case 1:
-			Debug.Log("アーム強化");
-			StartCoroutine(effectExit);
-			break;
-		case 2:
-			Debug.Log("高速化");
-			StartCoroutine(effectExit);
-			break;
-		default:
-			break;
+		    case 0:
+			    Debug.Log("回復");
+			    hp++;
+			    break;
+		    case 1:
+			    Debug.Log("武器強化");
+			    StartCoroutine(effectExit);
+			    break;
+		    case 2:
+			    Debug.Log("高速化");
+			    StartCoroutine(effectExit);
+			    break;
+            case 3:
+                Debug.Log("未定");
+                StartCoroutine(effectExit);
+                break;
+            case 4:
+                Debug.Log("未定");
+                StartCoroutine(effectExit);
+                break;
+		    default:
+			    break;
 		}
 	}
 
@@ -131,10 +145,25 @@ public class PlayerController : MonoBehaviour {
 	 {
 		 yield return new WaitForSeconds(delay);
 		 Debug.Log("強化解除");
-		 yield break;
 	 }
 
-	public int HP { 
+    IEnumerator Respawn(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        float x = Random.Range(0, 40f);
+        float z = Random.Range(0, 40f);
+        Vector3 newPos = new Vector3(x, transform.position.y, z);
+        transform.position = newPos;
+        this.gameObject.SetActive(true);
+    }
+
+    public void Resusitation(){
+        //Respawn();
+        //StartCoroutine(respawn);
+        Debug.Log("kita");
+    }
+
+    public int HP { 
 		set { oldHp = hp; hp = value; }
 		get { return this.hp; }
 	 }
@@ -144,7 +173,11 @@ public class PlayerController : MonoBehaviour {
 		get { return this.safety; }
 	 }
 
-	 public float WaitTime{
-		 set { waitTime = value; }
+	public float ReleaseTime{
+		set { releaseTime = value; }
 	 }
+
+    public float RespawnWait{
+        set { respawnWait = value; }
+    }
 }

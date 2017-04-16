@@ -5,11 +5,12 @@ using UnityEngine;
 public class GameController : MonoBehaviour {
 	[SerializeField] PlayerController Player01;
 	[SerializeField] PlayerController Player02;
-	[SerializeField] int maxHp; 
-	[SerializeField] GameObject itemInstance;
+	[SerializeField] int maxHp;
+    [SerializeField] float releaseTime;
+    [SerializeField] float respawnWait;
+    [SerializeField] GameObject itemInstance;
 	[SerializeField] int maximumValue;
 	[SerializeField] int createTime;
-	[SerializeField] float waitTIme;
 	private int itemNum;
 	private int itemCount;
 	private float timeCount;
@@ -20,26 +21,38 @@ public class GameController : MonoBehaviour {
 		timeCount = 0;
 		itemCount = 0;
 		SetPlayer();
+        itemObjects = new GameObject[maximumValue];
+        item = new Item[maximumValue];
 		CreateItem();
 	}
 	
 	// Update is called once per frame
 	void Update () {
 		timeCount += Time.deltaTime;
-		if(createTime == (int)timeCount){
+		if(createTime == (int)timeCount && itemCount <= maximumValue){
 			CreateItem();
 			timeCount = 0;
 		}
+        if (!Player01.gameObject.activeSelf){
+            Player01.gameObject.SetActive(true);
+            Player01.Resusitation();
+        }
+        if (!Player02.gameObject.activeSelf){
+            Player02.gameObject.SetActive(true);
+            Player02.Resusitation();
+        }
 	}
 	void SetPlayer(){
 		Player01.HP = maxHp;
-		Player01.WaitTime = waitTIme;
+        Player01.ReleaseTime = releaseTime;
+        Player01.RespawnWait = respawnWait;
 		Player02.HP = maxHp;
-		Player02.WaitTime = waitTIme;
+        Player02.ReleaseTime = releaseTime;
+        Player02.RespawnWait = respawnWait;
 	}
 
 	void CreateItem(){
-		itemNum = Random.Range(0, maximumValue);
+		itemNum = Random.Range(0, 3);
 		float x = Random.Range(0, 40f);
 		float z = Random.Range(0, 40f);
 		Vector3 newPos = new Vector3(x, 0.5f, z);
