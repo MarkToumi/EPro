@@ -132,6 +132,14 @@ public class PlayerController : MonoBehaviour {
 		}
 	}
 
+    void Respawn()
+    {
+        float x = Random.Range(0, 40f);
+        float z = Random.Range(0, 40f);
+        Vector3 newPos = new Vector3(x, transform.position.y, z);
+        transform.position = newPos;
+    }
+
 	IEnumerator EffectExit(float delay)
 	 {
         Debug.Log(delay);
@@ -149,8 +157,8 @@ public class PlayerController : MonoBehaviour {
     }
 
     public void Resusitation(){
-        //Respawn();
-        StartCoroutine(respawn);
+        Respawn();
+        //StartCoroutine(respawn);
 		mesh.material.color = defaultColor;
         Debug.Log("kita");
     }
