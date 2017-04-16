@@ -15,9 +15,16 @@ public class PlayerController : MonoBehaviour {
     private IEnumerator respawn;
     private float releaseTime;
     private float respawnWait;
+	private MeshRenderer mesh;
+	private Color defaultColor;
+	private Color alpha;
 	public PlayerController otherPlayer;
+	public bool testFire;
 	// Use this for initialization
 	void Start () {
+		mesh = GetComponent<MeshRenderer>();
+		defaultColor = mesh.material.color;
+		alpha = new Color(0, 0, 0, 0);
 		pNums = GameObject.FindGameObjectsWithTag("Player").Length;
         Players = new bool[pNums];
         for (int i = 0; i < pNums; i++)
@@ -57,11 +64,6 @@ public class PlayerController : MonoBehaviour {
 		}
 		if(oldHp > hp)
 			Debug.Log("残り" + hp + "!!");
-        if (!this.gameObject.activeSelf){
-            //Respawn();  関数バージョン
-            //StartCoroutine(respawn); コルーチンバージョン
-            Debug.Log("kita");
-        }
 	}
 
 	void OnCollisionEnter(Collision collision)
@@ -123,15 +125,11 @@ public class PlayerController : MonoBehaviour {
 			otherPlayer.HP = otherPlayer.HP - 1;
 		}
 		if(otherPlayer.HP == 0) Debug.Log("ゲーム終了");
-		else otherPlayer.gameObject.SetActive(false);
-	}
-
-	void Respawn(){
-		float x = Random.Range(0, 40f);
-		float z = Random.Range(0, 40f);
-		Vector3 newPos = new Vector3(x, transform.position.y, z);
-		transform.position = newPos;
-		this.gameObject.SetActive(true);
+		else {
+			MeshRenderer otherMesh = otherPlayer.Mesh;
+			otherMesh.material.color = alpha;
+			otherPlayer.Mesh = otherMesh;
+		}
 	}
 
 	IEnumerator EffectExit(float delay)
@@ -148,12 +146,12 @@ public class PlayerController : MonoBehaviour {
         float z = Random.Range(0, 40f);
         Vector3 newPos = new Vector3(x, transform.position.y, z);
         transform.position = newPos;
-        this.gameObject.SetActive(true);
     }
 
     public void Resusitation(){
         //Respawn();
-        //StartCoroutine(respawn);
+        StartCoroutine(respawn);
+		mesh.material.color = defaultColor;
         Debug.Log("kita");
     }
 
@@ -174,4 +172,13 @@ public class PlayerController : MonoBehaviour {
     public float RespawnWait{
         set { respawnWait = value; }
     }
+
+	public MeshRenderer Mesh{
+		get { return this.mesh; }
+		set { mesh = value; }
+	}
+
+	public float getAlpha(){
+		return mesh.material.color.a;
+	}
 }

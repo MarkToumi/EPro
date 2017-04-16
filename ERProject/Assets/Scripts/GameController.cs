@@ -33,14 +33,10 @@ public class GameController : MonoBehaviour {
 			CreateItem();
 			timeCount = 0;
 		}
-        if (!Player01.gameObject.activeSelf){
-            Player01.gameObject.SetActive(true);
-            Player01.Resusitation();
-        }
-        if (!Player02.gameObject.activeSelf){
-            Player02.gameObject.SetActive(true);
-            Player02.Resusitation();
-        }
+
+        if (Player01.getAlpha() <= 0.1f) Player01.Resusitation();
+    
+        if (Player02.getAlpha() <= 0.1f) Player02.Resusitation();
 	}
 	void SetPlayer(){
 		Player01.HP = startHp;
