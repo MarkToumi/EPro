@@ -6,21 +6,20 @@ using GamePad;
 public class PlayerController : MonoBehaviour {
 	private int hp;
 	private int oldHp;
-	private bool safety;
+	private bool safety; // Safety.csと連動
 	private float move_X;
 	private float move_Y;
     private float rotate_X;
-	private int pNums;
-	private bool[] Players;
-	private IEnumerator effectExit;
-    private IEnumerator respawn;
-    private float releaseTime;
-    private float respawnWait;
+	private int pNums; // プレイヤーの数
+	private bool[] Players; // プレイヤーの対応パッド
+	private IEnumerator effectExit; // コルーチン使うなら
+    private IEnumerator respawn; // こっちの方が引数を２つ以上設定できるのでオヌヌメ
+    private float releaseTime; // 強化解除時間
+    private float respawnWait; // リスポーンまでの時間
 	private MeshRenderer mesh;
 	private Color defaultColor;
 	private Color alpha;
-	public PlayerController otherPlayer;
-	public bool testFire;
+    public PlayerController otherPlayer; // Safety.csと連動
 	// Use this for initialization
 	void Start () {
 		mesh = GetComponent<MeshRenderer>();
@@ -47,7 +46,7 @@ public class PlayerController : MonoBehaviour {
 			Move(move_X, move_Y, rotate_X);
 			if(safety) {
 				if(GamePad01.Fire){
-					Debug.Log("FIre!");
+					Debug.Log("Fire!");
 					Attack();
 				}
 			}
@@ -69,24 +68,16 @@ public class PlayerController : MonoBehaviour {
 			Debug.Log("残り" + hp + "!!");
 	}
 
-	void OnCollisionEnter(Collision collision)
-	{
-		if(collision.gameObject.tag == "Item") {
-			Debug.Log("アイテムゲット&使用 コリジョン");
-			Item item = collision.gameObject.GetComponent<Item>();
-			ItemUse(item.ItemNum);
-			Destroy(collision.gameObject);
-		}
-	}
-
     void OnTriggerEnter(Collider other)
     {
+		/*
         if(other.gameObject.tag == "Item"){
             Debug.Log("アイテムゲット&使用 コライダー");
             Item item = other.gameObject.GetComponent<Item>();
             ItemUse(item.ItemNum);
             Destroy(other.gameObject);
         }
+		*/
     }
 
     void Move(float moveX, float moveY, float rotateX)
@@ -138,7 +129,8 @@ public class PlayerController : MonoBehaviour {
 		}
 	}
 
-	void Attack(){
+	void Attack() // 攻撃関係
+    {
 		if(otherPlayer != null){
 			otherPlayer.HP = otherPlayer.HP - 1;
 		}
@@ -150,7 +142,7 @@ public class PlayerController : MonoBehaviour {
 		}
 	}
 
-    void Respawn()
+    void Respawn() // 関数Ver.
     {
         float x = Random.Range(0, 40f);
         float z = Random.Range(0, 40f);
@@ -158,14 +150,14 @@ public class PlayerController : MonoBehaviour {
         transform.position = newPos;
     }
 
-	IEnumerator EffectExit(float delay)
+	IEnumerator EffectExit(float delay) // 強化解除
 	 {
         Debug.Log(delay);
 		yield return new WaitForSeconds(delay);
 		Debug.Log("強化解除");
 	 }
 
-    IEnumerator Respawn(float delay)
+    IEnumerator Respawn(float delay) // コルーチンVer.
     {
         yield return new WaitForSeconds(delay);
         float x = Random.Range(0, 40f);
@@ -174,7 +166,13 @@ public class PlayerController : MonoBehaviour {
         transform.position = newPos;
     }
 
-    public void Resusitation(){
+    public void EffectOut()
+    {
+        StartCoroutine(effectExit);
+    }
+
+    public void Resusitation() // リスポーン関係
+    {
         Respawn();
         //StartCoroutine(respawn);
 		mesh.material.color = defaultColor;

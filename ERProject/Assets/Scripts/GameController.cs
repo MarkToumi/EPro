@@ -3,21 +3,22 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class GameController : MonoBehaviour {
-	[SerializeField] PlayerController Player01;
-	[SerializeField] PlayerController Player02;
-	[SerializeField] int startHp = 3;
-    [SerializeField] float releaseTime;
-    [SerializeField] float respawnWait;
-    [SerializeField] GameObject itemInstance;
-	[SerializeField] int maximumValue;
-	[SerializeField] int createTime;
+	[SerializeField] PlayerController Player01; // プレイヤーを
+	[SerializeField] PlayerController Player02; // 取得
+	[SerializeField] int startHp = 3; // 初期HP
+    [SerializeField] float releaseTime; // 強化解除の時間
+    [SerializeField] float respawnWait; // リスポーンまでの時間
+    [SerializeField] GameObject itemInstance; // 生成するアイテムのプレファブ
+	[SerializeField] int maximumValue; // 出現するアイテムの最大個数
+	[SerializeField] int createTime; // アイテムの出現頻度（createTimeごとに出現)
 	private int itemNum;
 	private int itemCount;
 	private float timeCount;
 	private GameObject[] itemObjects;
 	private Item[] item;
 	// Use this for initialization
-	void Start () {
+	void Start () 
+	{
 		timeCount = 0;
 		itemCount = 0;
 		SetPlayer();
@@ -27,9 +28,11 @@ public class GameController : MonoBehaviour {
 	}
 	
 	// Update is called once per frame
-	void Update () {
+	void Update () 
+	{
 		timeCount += Time.deltaTime;
-		if(createTime == (int)timeCount && itemCount <= maximumValue){
+		if(createTime == (int)timeCount && itemCount <= maximumValue)
+		{
 			CreateItem();
 			timeCount = 0;
 		}
@@ -38,7 +41,8 @@ public class GameController : MonoBehaviour {
     
         if (Player02.getAlpha() <= 0.1f) Player02.Resusitation();
 	}
-	void SetPlayer(){
+	void SetPlayer() // 各プレイヤーに初期設定
+	{
 		Player01.HP = startHp;
         Player01.ReleaseTime = releaseTime;
         Player01.RespawnWait = respawnWait;
@@ -47,7 +51,8 @@ public class GameController : MonoBehaviour {
         Player02.RespawnWait = respawnWait;
 	}
 
-	void CreateItem(){
+	void CreateItem() // アイテムを生成してランダムに配置。アイテムの属性も同時に設定
+	{ 
         Debug.Log("アイテム生成");
 		itemNum = Random.Range(0, 3);
 		float x = Random.Range(0, 40f);
