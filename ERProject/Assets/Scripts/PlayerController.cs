@@ -9,6 +9,7 @@ public class PlayerController : MonoBehaviour {
 	private bool safety;
 	private float move_X;
 	private float move_Y;
+    private float rotate_X;
 	private int pNums;
 	private bool[] Players;
 	private IEnumerator effectExit;
@@ -42,7 +43,8 @@ public class PlayerController : MonoBehaviour {
 		{
 			move_X = GamePad01.LStick_X;
 			move_Y = GamePad01.LStick_Y;
-			Move(move_X, move_Y);
+            rotate_X = GamePad01.RStick_X;
+			Move(move_X, move_Y, rotate_X);
 			if(safety) {
 				if(GamePad01.Fire){
 					Debug.Log("FIre!");
@@ -54,7 +56,8 @@ public class PlayerController : MonoBehaviour {
 		{
             move_X = GamePad02.LStick_X;
             move_Y = GamePad02.LStick_Y;
-            Move(move_X, move_Y);
+            rotate_X = GamePad02.RStick_X;
+            Move(move_X, move_Y, rotate_X);
 			if(safety){
 				if(GamePad02.Fire){
 					Debug.Log("Fire!");
@@ -86,10 +89,25 @@ public class PlayerController : MonoBehaviour {
         }
     }
 
-    void Move(float x, float y)
+    void Move(float moveX, float moveY, float rotateX)
 	{
-        Vector3 newPos = new Vector3(transform.position.x + x, transform.position.y, transform.position.z + y);
+        // 両方Ver.
+        
+        Vector3 newPos = new Vector3(transform.position.x + moveX, transform.position.y, transform.position.z + moveY);
         transform.position = newPos;
+        transform.Rotate(0, rotateX, 0);
+        
+        // 片方Ver.1
+        /*
+        Vector3 newPos = new Vector3(transform.position.x + moveX, transform.position.y, transform.position.z + moveY);
+        transform.position = newPos;
+        transform.Rotate(0, moveX, 0);
+        */
+        // 片方Ver.2
+        /*
+        transform.position += transform.forward * moveY;
+        transform.Rotate(0, moveX, 0);
+        */
 	}
 
 	void ItemUse(int itemNum)
