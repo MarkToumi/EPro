@@ -10,7 +10,11 @@ public class PlayerController : MonoBehaviour {
 	private float move_X;
 	private float move_Y;
     private float rotate_X;
-	private int pNums; // プレイヤーの数
+    private float rotatePlus;
+    private float accel;
+    private float defaultAccel;
+    private float defaultRotate;
+    private int pNums; // プレイヤーの数
 	private bool[] Players; // プレイヤーの対応パッド
 	private IEnumerator effectExit; // コルーチン使うなら
     private IEnumerator respawn; // こっちの方が引数を２つ以上設定できるのでオヌヌメ
@@ -22,6 +26,8 @@ public class PlayerController : MonoBehaviour {
     public PlayerController otherPlayer; // Safety.csと連動
 	// Use this for initialization
 	void Start () {
+        defaultAccel = accel;
+        defaultRotate = rotatePlus;
 		mesh = GetComponent<MeshRenderer>();
 		defaultColor = mesh.material.color;
 		alpha = new Color(0, 0, 0, 0);
@@ -44,8 +50,10 @@ public class PlayerController : MonoBehaviour {
 			move_Y = GamePad01.LStick_Y;
             rotate_X = GamePad01.RStick_X;
 			Move(move_X, move_Y, rotate_X);
-			if(safety) {
-				if(GamePad01.Fire){
+			if(safety)
+            {
+				if(GamePad01.Fire)
+                {
 					Debug.Log("Fire!");
 					Attack();
 				}
@@ -57,8 +65,10 @@ public class PlayerController : MonoBehaviour {
             move_Y = GamePad02.LStick_Y;
             rotate_X = GamePad02.RStick_X;
             Move(move_X, move_Y, rotate_X);
-			if(safety){
-				if(GamePad02.Fire){
+			if(safety)
+            {
+				if(GamePad02.Fire)
+                {
 					Debug.Log("Fire!");
 					Attack();
 				}
@@ -85,7 +95,7 @@ public class PlayerController : MonoBehaviour {
         // 両方Ver.
         
         Vector3 newPos = new Vector3(transform.position.x + moveX, transform.position.y, transform.position.z + moveY);
-        transform.position = newPos;
+        transform.position = newPos * accel;
         transform.Rotate(0, rotateX, 0);
         
         // 片方Ver.1
@@ -103,7 +113,8 @@ public class PlayerController : MonoBehaviour {
 
 	void ItemUse(int itemNum)
 	{
-		switch(itemNum){
+		switch(itemNum)
+        {
 		    case 0:
 			    Debug.Log("回復");
 			    hp++;
@@ -131,11 +142,11 @@ public class PlayerController : MonoBehaviour {
 
 	void Attack() // 攻撃関係
     {
-		if(otherPlayer != null){
+		if(otherPlayer != null)
 			otherPlayer.HP = otherPlayer.HP - 1;
-		}
 		if(otherPlayer.HP == 0) Debug.Log("ゲーム終了");
-		else {
+		else
+        {
 			MeshRenderer otherMesh = otherPlayer.Mesh;
 			otherMesh.material.color = alpha;
 			otherPlayer.Mesh = otherMesh;
@@ -154,6 +165,8 @@ public class PlayerController : MonoBehaviour {
 	 {
         Debug.Log(delay);
 		yield return new WaitForSeconds(delay);
+        accel = defaultAccel;
+        rotatePlus = defaultRotate;
 		Debug.Log("強化解除");
 	 }
 
@@ -195,6 +208,16 @@ public class PlayerController : MonoBehaviour {
 
     public float RespawnWait{
         set { respawnWait = value; }
+    }
+
+    public float Accel{
+        set { accel = value; }
+        get { return this.accel; }
+    }
+
+    public float RotatePlus{
+        set { rotatePlus = value; }
+        get { return this.rotatePlus; }
     }
 
 	public MeshRenderer Mesh{

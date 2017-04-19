@@ -5,10 +5,10 @@ using UnityEngine;
 public class Item : MonoBehaviour {
 	private int itemNum;
     private PlayerController player;
-
+    private int heal;
 	// Use this for initialization
 	void Start () {
-		
+        heal = 1;
 	}
 	
 	// Update is called once per frame
@@ -23,6 +23,7 @@ public class Item : MonoBehaviour {
             player = other.gameObject.GetComponent<PlayerController>();
             ItemUse(player, itemNum);
             Debug.Log("当たった");
+            Destroy(this.gameObject);
         }
     }
 
@@ -31,18 +32,20 @@ public class Item : MonoBehaviour {
         switch(iNum)
         {
             case 0:
-                pc.HP = pc.HP + 1;
-            break;
+                Debug.Log("回復");
+                pc.HP = pc.HP + heal;
+                break;
             case 1:
                 Debug.Log("加速");
+                pc.Accel = 1.5f;
                 pc.EffectOut();
-            break;
+                break;
             case 2:
                 Debug.Log("強化");
                 pc.EffectOut();
-            break;
+                break;
             default:
-            break;
+                break;
         }
     }
 
