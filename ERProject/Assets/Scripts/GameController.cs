@@ -96,7 +96,7 @@ public class GameController : MonoBehaviour {
 		itemNum = Random.Range(0, 3);
 		itemObjects[itemCount] = Instantiate(itemInstance, itemInstance.transform.position, Quaternion.Euler(0, 0, 0));
 		item[itemCount] = itemObjects[itemCount].GetComponent<Item>();
-		item[itemCount].ItemNum = itemNum;
+		item[itemCount].ItemNum = 0;
 		itemCount++;
 	}
 

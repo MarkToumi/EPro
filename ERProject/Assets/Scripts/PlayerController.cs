@@ -153,7 +153,7 @@ public class PlayerController : MonoBehaviour {
     {
 		if(otherPlayer != null)
 		{
-			int remaining = otherPlayer.HP -2;
+			int remaining = otherPlayer.HP -1;
 			otherPlayer.HP -= 1;
 			otherPlayer.life[remaining].SetActive(false);
 		}

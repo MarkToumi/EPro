@@ -51,7 +51,7 @@ public class Item : MonoBehaviour {
 
     void Heal(PlayerController pc)
     {
-        if (pc.HP <= pc.MaxHP)
+        if (pc.HP >= pc.MaxHP)
         {
             Debug.Log("回復失敗");
             return;
