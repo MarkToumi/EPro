@@ -23,6 +23,7 @@ public class GameController : MonoBehaviour {
 	private Item[] item;
 	private TimeCheck tc;
 	private Text winnerName;
+    public bool gameOver = false;
 	// Use this for initialization
 	void Start () {
 		winner.SetActive(false);
@@ -59,7 +60,7 @@ public class GameController : MonoBehaviour {
             CreateGrave(playerPos);
         }
 
-		if(Player01.GameOver || Player02.GameOver || tc.TimeCount == 0)
+		if(gameOver)
 		{
 			winner.SetActive(true);
 			if(Player02.GameOver || Player01.HP > Player02.HP)
@@ -74,6 +75,7 @@ public class GameController : MonoBehaviour {
 			{
 				winnerName.text = "引き分け！";
 			}
+            Debug.Log("ゲーム終了");
 		}
 	}
 	void SetPlayer() // 各プレイヤーに初期設定

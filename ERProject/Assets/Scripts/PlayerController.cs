@@ -25,9 +25,11 @@ public class PlayerController : MonoBehaviour {
 	private Color defaultColor;
 	private Color alpha;
 	private bool gameOver;
+    private GameController gc;
     public PlayerController otherPlayer; // Safety.csと連動
 	// Use this for initialization
 	void Start () {
+        gc = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameController>();
 		gameOver = false;
 		maxHp = hp;
         defaultAccel = accel;
@@ -149,13 +151,17 @@ public class PlayerController : MonoBehaviour {
     {
 		if(otherPlayer != null)
 			otherPlayer.HP = otherPlayer.HP - 1;
-		if(otherPlayer.HP == 0) Debug.Log("ゲーム終了");
-		else
+        if (otherPlayer.HP == 0)
         {
-			MeshRenderer otherMesh = otherPlayer.Mesh;
-			otherMesh.material.color = alpha;
-			otherPlayer.Mesh = otherMesh;
-		}
+            gc.gameOver = true;
+            otherPlayer.gameOver = true;
+        }
+        else
+        {
+            MeshRenderer otherMesh = otherPlayer.Mesh;
+            otherMesh.material.color = alpha;
+            otherPlayer.Mesh = otherMesh;
+        }
 	}
 
     void Respawn() // 関数Ver.
