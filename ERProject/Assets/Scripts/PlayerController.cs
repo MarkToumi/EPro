@@ -6,6 +6,7 @@ using GamePad;
 public class PlayerController : MonoBehaviour {
 	private int hp;
 	private int oldHp;
+	private int maxHp;
 	private bool safety; // Safety.csと連動
 	private float move_X;
 	private float move_Y;
@@ -23,9 +24,12 @@ public class PlayerController : MonoBehaviour {
 	private MeshRenderer mesh;
 	private Color defaultColor;
 	private Color alpha;
+	private bool gameOver;
     public PlayerController otherPlayer; // Safety.csと連動
 	// Use this for initialization
 	void Start () {
+		gameOver = false;
+		maxHp = hp;
         defaultAccel = accel;
         defaultRotate = rotatePlus;
 		mesh = GetComponent<MeshRenderer>();
@@ -156,8 +160,8 @@ public class PlayerController : MonoBehaviour {
 
     void Respawn() // 関数Ver.
     {
-        float x = Random.Range(0, 40f);
-        float z = Random.Range(0, 40f);
+        float x = Random.Range(-40f, 40f);
+        float z = Random.Range(-40f, 40f);
         Vector3 newPos = new Vector3(x, transform.position.y, z);
         transform.position = newPos;
     }
@@ -174,8 +178,8 @@ public class PlayerController : MonoBehaviour {
     IEnumerator Respawn(float delay) // コルーチンVer.
     {
         yield return new WaitForSeconds(delay);
-        float x = Random.Range(0, 40f);
-        float z = Random.Range(0, 40f);
+        float x = Random.Range(-40f, 40f);
+        float z = Random.Range(-40f, 40f);
         Vector3 newPos = new Vector3(x, transform.position.y, z);
         transform.position = newPos;
     }
@@ -198,35 +202,43 @@ public class PlayerController : MonoBehaviour {
 		get { return this.hp; }
 	 }
 
-	public bool Safety{ 
+	 public int MaxHP {
+		 get { return this.maxHp; }
+	 }
+
+	public bool Safety { 
 		set { safety = value; }
 		get { return this.safety; }
 	 }
 
-	public float ReleaseTime{
+	 public bool GameOver {
+		 get { return this.gameOver; }
+	 }
+
+	public float ReleaseTime {
 		set { releaseTime = value; }
 	 }
 
-    public float RespawnWait{
+    public float RespawnWait {
         set { respawnWait = value; }
     }
 
-    public float Accel{
+    public float Accel {
         set { accel = value; }
         get { return this.accel; }
     }
 
-    public float RotatePlus{
+    public float RotatePlus {
         set { rotatePlus = value; }
         get { return this.rotatePlus; }
     }
 
-	public MeshRenderer Mesh{
+	public MeshRenderer Mesh {
 		get { return this.mesh; }
 		set { mesh = value; }
 	}
 
-	public float getAlpha(){
+	public float getAlpha() {
 		return mesh.material.color.a;
 	}
 }
