@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GameController : MonoBehaviour {
 	[SerializeField] PlayerController Player01; // プレイヤーを
@@ -14,25 +15,31 @@ public class GameController : MonoBehaviour {
 	[SerializeField] int maximumValue; // 出現するアイテムの最大個数
 	[SerializeField] int createTime; // アイテムの出現頻度（createTimeごとに出現)
     [SerializeField] GameObject graveInstance; // 墓のプレファブ
+	[SerializeField] GameObject winner;
 	private int itemNum;
 	private int itemCount;
 	private float timeCount;
 	private GameObject[] itemObjects;
 	private Item[] item;
+	private TimeCheck tc;
+	private Text winnerName;
 	// Use this for initialization
 	void Start () {
+		winner.SetActive(false);
 		timeCount = 0;
 		itemCount = 0;
 		SetPlayer();
         itemObjects = new GameObject[maximumValue];
         item = new Item[maximumValue];
 		CreateItem();
+		tc = GetComponent<TimeCheck>();
+		winnerName = winner.GetComponent<Text>();
 	}
 	
 	// Update is called once per frame
 	void Update () {
 		timeCount += Time.deltaTime;
-		if(createTime == (int)timeCount && itemCount <= maximumValue)
+		if(createTime == (int)timeCount && tc.TimeCount > 0)
 		{
 			CreateItem();
 			timeCount = 0;
@@ -51,6 +58,23 @@ public class GameController : MonoBehaviour {
             Player02.Resusitation();
             CreateGrave(playerPos);
         }
+
+		if(Player01.GameOver || Player02.GameOver || tc.TimeCount == 0)
+		{
+			winner.SetActive(true);
+			if(Player02.GameOver || Player01.HP > Player02.HP)
+			{
+				winnerName.text = "プレイヤー１の勝利！";
+			}
+			else if(Player01.GameOver || Player02.HP > Player01.HP)
+			{
+				winnerName.text = "プレイヤー２の勝利！";
+			}
+			else if(Player01.HP == Player02.HP)
+			{
+				winnerName.text = "引き分け！";
+			}
+		}
 	}
 	void SetPlayer() // 各プレイヤーに初期設定
 	{
@@ -70,10 +94,7 @@ public class GameController : MonoBehaviour {
 	{ 
         Debug.Log("アイテム生成");
 		itemNum = Random.Range(0, 3);
-		float x = Random.Range(0, 40f);
-		float z = Random.Range(0, 40f);
-		Vector3 newPos = new Vector3(x, 1.5f, z);
-		itemObjects[itemCount] = Instantiate(itemInstance, newPos, Quaternion.Euler(0, 0, 0));
+		itemObjects[itemCount] = Instantiate(itemInstance, itemInstance.transform.position, Quaternion.Euler(0, 0, 0));
 		item[itemCount] = itemObjects[itemCount].GetComponent<Item>();
 		item[itemCount].ItemNum = itemNum;
 		itemCount++;
@@ -84,4 +105,8 @@ public class GameController : MonoBehaviour {
         Debug.Log("墓生成");
         Instantiate(graveInstance, pos, Quaternion.identity);
     }
+
+	public int StartHP{
+		get { return this.startHp; }
+	}
 }

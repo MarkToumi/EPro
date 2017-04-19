@@ -33,7 +33,7 @@ public class Item : MonoBehaviour {
         {
             case 0:
                 Debug.Log("回復");
-                pc.HP = pc.HP + heal;
+                Heal(pc);
                 break;
             case 1:
                 Debug.Log("加速");
@@ -47,6 +47,12 @@ public class Item : MonoBehaviour {
             default:
                 break;
         }
+    }
+
+    void Heal(PlayerController pc)
+    {
+        if(pc.HP == pc.MaxHP) return;
+        else if(pc.HP < pc.MaxHP) pc.HP += heal;
     }
 
     public int ItemNum { 

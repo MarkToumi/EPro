@@ -17,7 +17,13 @@ public class TimeCheck : MonoBehaviour
 	// Update is called once per frame
 	void Update ()
 	{
-		time -= Time.deltaTime;
+		if(time <= 0)
+			time = 0;
+		else time -= Time.deltaTime;
 		timeTxt.text = "残り時間：" + time.ToString ("f1");
+	}
+
+	public float TimeCount {
+		get { return this.time; }
 	}
 }
