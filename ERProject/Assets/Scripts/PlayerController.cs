@@ -76,6 +76,7 @@ public class PlayerController : MonoBehaviour {
 		}
 		if(oldHp > hp)
 			Debug.Log("残り" + hp + "!!");
+        Debug.Log(accel);
 	}
 
     void OnTriggerEnter(Collider other)
@@ -93,9 +94,9 @@ public class PlayerController : MonoBehaviour {
     void Move(float moveX, float moveY, float rotateX)
 	{
         // 両方Ver.
-        
-        Vector3 newPos = new Vector3(transform.position.x + moveX, transform.position.y, transform.position.z + moveY);
-        transform.position = newPos * accel;
+
+        Vector3 newPos = new Vector3(transform.position.x + (moveX * accel), transform.position.y, transform.position.z + (moveY * accel));
+        transform.position = newPos;
         transform.Rotate(0, rotateX, 0);
         
         // 片方Ver.1
