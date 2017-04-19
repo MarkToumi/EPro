@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using GamePad;
 
 public class PlayerController : MonoBehaviour {
@@ -27,6 +28,7 @@ public class PlayerController : MonoBehaviour {
 	private bool gameOver;
     private GameController gc;
     public PlayerController otherPlayer; // Safety.csと連動
+	public GameObject[] life;
 	// Use this for initialization
 	void Start () {
         gc = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameController>();
@@ -150,7 +152,11 @@ public class PlayerController : MonoBehaviour {
 	void Attack() // 攻撃関係
     {
 		if(otherPlayer != null)
-			otherPlayer.HP = otherPlayer.HP - 1;
+		{
+			int remaining = otherPlayer.HP -2;
+			otherPlayer.HP -= 1;
+			otherPlayer.life[remaining].SetActive(false);
+		}
         if (otherPlayer.HP == 0)
         {
             gc.gameOver = true;

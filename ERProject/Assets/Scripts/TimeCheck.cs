@@ -19,9 +19,9 @@ public class TimeCheck : MonoBehaviour
 	// Update is called once per frame
 	void Update ()
 	{
-        if (!gc.gameOver)
+        if (!gc.gameOver) // ゲームオーバーしてなかったら
         {
-            if (time <= 0)
+            if (time <= 0) // タイムアップしたらGameControllerのフラグをtrueに
             {
                 time = 0;
                 gc.gameOver = true;

@@ -56,7 +56,12 @@ public class Item : MonoBehaviour {
             Debug.Log("回復失敗");
             return;
         }
-        else pc.HP += heal;
+        else 
+        {
+            pc.HP += heal;
+            int remaining = pc.HP - 1;
+            pc.life[remaining].SetActive(true);
+        }
     }
 
     public int ItemNum { 

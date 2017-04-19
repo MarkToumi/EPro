@@ -15,15 +15,14 @@ public class GameController : MonoBehaviour {
 	[SerializeField] int maximumValue; // 出現するアイテムの最大個数
 	[SerializeField] int createTime; // アイテムの出現頻度（createTimeごとに出現)
     [SerializeField] GameObject graveInstance; // 墓のプレファブ
-	[SerializeField] GameObject winner;
+	[SerializeField] GameObject winner; // ゲームオーバーで勝者を写すやつ
 	private int itemNum;
 	private int itemCount;
 	private float timeCount;
 	private GameObject[] itemObjects;
 	private Item[] item;
-	private TimeCheck tc;
-	private Text winnerName;
-    public bool gameOver = false;
+	private Text winnerName; // 勝者の名前が入るやつ
+    public bool gameOver = false; // 横着してpublic使った。許せ
 	// Use this for initialization
 	void Start () {
 		winner.SetActive(false);
@@ -33,14 +32,13 @@ public class GameController : MonoBehaviour {
         itemObjects = new GameObject[maximumValue];
         item = new Item[maximumValue];
 		CreateItem();
-		tc = GetComponent<TimeCheck>();
 		winnerName = winner.GetComponent<Text>();
 	}
 	
 	// Update is called once per frame
 	void Update () {
 		timeCount += Time.deltaTime;
-		if(createTime == (int)timeCount && tc.TimeCount > 0)
+		if(createTime == (int)timeCount && !gameOver)
 		{
 			CreateItem();
 			timeCount = 0;
@@ -60,7 +58,7 @@ public class GameController : MonoBehaviour {
             CreateGrave(playerPos);
         }
 
-		if(gameOver)
+		if(gameOver) // ゲームオーバー処理
 		{
 			winner.SetActive(true);
 			if(Player02.GameOver || Player01.HP > Player02.HP)
