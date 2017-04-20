@@ -52,36 +52,34 @@ public class PlayerController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if(Players[0])
+		if(!gc.gameOver)
 		{
-			move_X = GamePad01.LStick_X;
-			move_Y = GamePad01.LStick_Y;
-            rotate_X = GamePad01.RStick_X;
-			Move(move_X, move_Y, rotate_X);
-			if(safety)
-            {
-				if(GamePad01.Fire)
-                {
-					Debug.Log("Fire!");
-					Attack();
+			if(Players[0])
+			{
+				move_X = GamePad01.LStick_X;
+				move_Y = GamePad01.LStick_Y;
+				rotate_X = GamePad01.RStick_X;
+				Move(move_X, move_Y, rotate_X);
+				if(safety)
+				{
+					if(GamePad01.Fire)
+						Attack();
+				}
+			}
+			else if(Players[1])
+			{
+				move_X = GamePad02.LStick_X;
+				move_Y = GamePad02.LStick_Y;
+				rotate_X = GamePad02.RStick_X;
+				Move(move_X, move_Y, rotate_X);
+				if(safety)
+				{
+					if(GamePad02.Fire)
+						Attack();
 				}
 			}
 		}
-		else if(Players[1])
-		{
-            move_X = GamePad02.LStick_X;
-            move_Y = GamePad02.LStick_Y;
-            rotate_X = GamePad02.RStick_X;
-            Move(move_X, move_Y, rotate_X);
-			if(safety)
-            {
-				if(GamePad02.Fire)
-                {
-					Debug.Log("Fire!");
-					Attack();
-				}
-			}
-		}
+		
 		if(oldHp > hp)
 			Debug.Log("残り" + hp + "!!");
         Debug.Log(accel);

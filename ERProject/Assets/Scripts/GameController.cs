@@ -22,7 +22,7 @@ public class GameController : MonoBehaviour {
 	private GameObject[] itemObjects;
 	private Item[] item;
 	private Text winnerName; // 勝者の名前が入るやつ
-    public bool gameOver = false; // 横着してpublic使った。許せ
+    public bool gameOver = false; // いろんなところから変更するからpublicで
 	// Use this for initialization
 	void Start () {
 		winner.SetActive(false);
@@ -48,24 +48,24 @@ public class GameController : MonoBehaviour {
         {
             Vector3 playerPos = Player01.gameObject.transform.position;
             Player01.Resusitation();
-            CreateGrave(playerPos);
+            CreateGrave(playerPos); // キャラがいた位置にお墓を建てる
         }
 
         if (Player02.getAlpha() <= 0.1f)
         {
             Vector3 playerPos = Player02.gameObject.transform.position;
             Player02.Resusitation();
-            CreateGrave(playerPos);
+            CreateGrave(playerPos); // キャラがいた位置にお墓を建てる
         }
 
 		if(gameOver) // ゲームオーバー処理
 		{
 			winner.SetActive(true);
-			if(Player02.GameOver || Player01.HP > Player02.HP)
+			if(Player01.HP > Player02.HP)
 			{
 				winnerName.text = "プレイヤー１の勝利！";
 			}
-			else if(Player01.GameOver || Player02.HP > Player01.HP)
+			else if(Player02.HP > Player01.HP)
 			{
 				winnerName.text = "プレイヤー２の勝利！";
 			}
@@ -104,9 +104,5 @@ public class GameController : MonoBehaviour {
     {
         Debug.Log("墓生成");
         Instantiate(graveInstance, pos, Quaternion.identity);
-    }
-
-	public int StartHP{
-		get { return this.startHp; }
 	}
 }
