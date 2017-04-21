@@ -15,7 +15,7 @@ public class GameController : MonoBehaviour {
     [SerializeField] GameObject graveInstance; // 墓のプレファブ
 	[SerializeField] GameObject winner; // ゲームオーバーで勝者を写すやつ
 	private int itemNum;
-	private int itemPos;
+	private int itemCount;
 	private float timeCount;
 	private Text winnerName; // 勝者の名前が入るやつ
     public bool gameOver = false; // いろんなところから変更するからpublicで
@@ -23,6 +23,7 @@ public class GameController : MonoBehaviour {
 	void Start () {
 		winner.SetActive(false);
 		timeCount = 0;
+		itemCount = 0;
 		SetPlayer();
 		CreateItem();
 		winnerName = winner.GetComponent<Text>();
@@ -85,31 +86,11 @@ public class GameController : MonoBehaviour {
 	{ 
         Debug.Log("アイテム生成");
 		itemNum = Random.Range(0, 3);
-		itemPos = Random.Range(0, items.Length);
-        if(items[itemPos].activeSelf)
-        {
-            switch(itemPos)
-            {
-                case 0:
-                    itemPos = 1;
-                    break;
-                case 1:
-                    itemPos = 2;
-                    break;
-                case 2:
-                    itemPos = 3;
-                    break;
-                case 3:
-                    itemPos = 0;
-                    break;
-                default:
-                    break;
-            }
-        }
-		items[itemPos].SetActive(true);
-		Debug.Log(items[itemPos]);
-		Item item = items[itemPos].GetComponent<Item>();
-		item.ItemNum = 1;
+		items[itemCount].SetActive(true);
+		Item item = items[itemCount].GetComponent<Item>();
+		item.ItemNum = itemNum;
+		itemCount++;
+		itemCount %= items.Length;
 	}
 
     void CreateGrave(Vector3 pos) // プレイヤーの残機が減った場所にオブジェクト生成

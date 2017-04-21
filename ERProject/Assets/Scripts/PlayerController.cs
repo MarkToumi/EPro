@@ -9,9 +9,9 @@ public class PlayerController : MonoBehaviour {
 	private const float RIGHT = 90;
 	private const float LEFT = 270;
 	private int hp;
-	private int oldHp;
 	private int maxHp;
 	private bool safety; // Safety.csと連動
+	private bool isCatch;
 	private float move_X;
 	private float move_Z;
     private float accel;
@@ -20,13 +20,18 @@ public class PlayerController : MonoBehaviour {
     private IEnumerator respawn; // コルーチン使うならこっちの方が引数を２つ以上設定できるのでオヌヌメ
     private float releaseTime; // 強化解除時間
     private float respawnWait; // リスポーンまでの時間
+	private GameObject child;
     private GameController gc;
+	public GameObject throwObject;
     public PlayerController otherPlayer; // Safety.csと連動
 	public GameObject[] life;
 	public bool recovery = false;
 	// Use this for initialization
 	void Start () {
-        gc = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameController>();
+		safety = false;
+		isCatch = false;
+		child = transform.GetChild(0).gameObject;
+        gc = GameObject.Find("GameController").GetComponent<GameController>();
 		maxHp = hp;
 		pNums = GameObject.FindGameObjectsWithTag("Player").Length;
         Players = new bool[pNums];
@@ -52,6 +57,16 @@ public class PlayerController : MonoBehaviour {
 					if(GamePad01.Fire)
 						Attack();
 				}
+				else if(throwObject != null)
+				{
+					if(GamePad01.Fire)
+						Catch();
+				}
+				else if(isCatch)
+				{
+					if(GamePad01.Fire)
+						Throw();
+				}
 			}
 			else if(Players[1])
 			{
@@ -63,12 +78,18 @@ public class PlayerController : MonoBehaviour {
 					if(GamePad02.Fire)
 						Attack();
 				}
+				else if(throwObject != null)
+				{
+					if(GamePad02.Fire)
+						Catch();
+				}
+				else if(isCatch)
+				{
+					if(GamePad02.Fire)
+						Throw();
+				}
 			}
 		}
-		
-		if(oldHp > hp)
-			Debug.Log("残り" + hp + "!!");
-        Debug.Log(accel);
 	}
 
     void OnTriggerEnter(Collider other)
@@ -102,18 +123,6 @@ public class PlayerController : MonoBehaviour {
 			moveZ = 0;
         Vector3 newPos = new Vector3(transform.position.x + (moveX * accel), transform.position.y, transform.position.z + (moveZ * accel));
         transform.position = newPos;
-        
-        // 片方Ver.1
-        /*
-        Vector3 newPos = new Vector3(transform.position.x + moveX, transform.position.y, transform.position.z + moveY);
-        transform.position = newPos;
-        transform.Rotate(0, moveX, 0);
-        */
-        // 片方Ver.2
-        /*
-        transform.position += transform.forward * moveY;
-        transform.Rotate(0, moveX, 0);
-        */
 	}
 
 	void Attack() // 攻撃関係
@@ -128,6 +137,18 @@ public class PlayerController : MonoBehaviour {
             gc.gameOver = true;
         else
 			otherPlayer.recovery = true;
+	}
+
+	void Catch()
+	{
+		throwObject.transform.parent = child.transform;
+		isCatch = true;
+	}
+
+	void Throw()
+	{
+		throwObject.transform.parent = null;
+		isCatch = false;
 	}
 
     void Respawn() // 関数Ver.
@@ -155,7 +176,7 @@ public class PlayerController : MonoBehaviour {
     }
 
     public int HP { 
-		set { oldHp = hp; hp = value; }
+		set { hp = value; }
 		get { return this.hp; }
 	 }
 
@@ -166,6 +187,11 @@ public class PlayerController : MonoBehaviour {
 	public bool Safety { 
 		set { safety = value; }
 		get { return this.safety; }
+	 }
+
+	 public bool IsCatch {
+		 set { isCatch = value; }
+		 get { return this.isCatch; }
 	 }
 
 	public float ReleaseTime {

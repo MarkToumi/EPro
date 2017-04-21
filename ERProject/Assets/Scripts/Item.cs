@@ -21,23 +21,22 @@ public class Item : MonoBehaviour {
         if (other.gameObject.tag == "Player")
         {
             player = other.gameObject.GetComponent<PlayerController>();
-            ItemUse(player, itemNum);
-            Debug.Log("当たった");
+            ItemUse(itemNum);
             this.gameObject.SetActive(false);
         }
     }
 
-    void ItemUse(PlayerController pc, int iNum)
+    void ItemUse(int iNum)
     {
         switch(iNum)
         {
             case 0:
                 Debug.Log("回復");
-                Heal(pc);
+                Heal(player);
                 break;
             case 1:
                 Debug.Log("加速");
-                pc.gameObject.AddComponent<Acceleration>();
+                player.gameObject.AddComponent<Acceleration>();
                 break;
             case 2:
                 Debug.Log("強化");
