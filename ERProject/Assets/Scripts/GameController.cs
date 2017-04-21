@@ -86,6 +86,26 @@ public class GameController : MonoBehaviour {
         Debug.Log("アイテム生成");
 		itemNum = Random.Range(0, 3);
 		itemPos = Random.Range(0, items.Length);
+        if(items[itemPos].activeSelf)
+        {
+            switch(itemPos)
+            {
+                case 0:
+                    itemPos = 1;
+                    break;
+                case 1:
+                    itemPos = 2;
+                    break;
+                case 2:
+                    itemPos = 3;
+                    break;
+                case 3:
+                    itemPos = 0;
+                    break;
+                default:
+                    break;
+            }
+        }
 		items[itemPos].SetActive(true);
 		Debug.Log(items[itemPos]);
 		Item item = items[itemPos].GetComponent<Item>();

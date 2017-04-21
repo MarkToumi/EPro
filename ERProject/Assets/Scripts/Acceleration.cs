@@ -22,7 +22,7 @@ public class Acceleration : MonoBehaviour {
 
 	void Accel()
 	{
-		pc.Accel += 2;
+		pc.Accel += 1;
 		StartCoroutine(effectExit);
 	}
 
