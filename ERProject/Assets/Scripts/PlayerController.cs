@@ -127,7 +127,7 @@ public class PlayerController : MonoBehaviour {
         if (otherPlayer.HP == 0)
             gc.gameOver = true;
         else
-			recovery = true;
+			otherPlayer.recovery = true;
 	}
 
     void Respawn() // 関数Ver.
