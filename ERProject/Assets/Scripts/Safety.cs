@@ -15,14 +15,14 @@ public class Safety : MonoBehaviour {
 	}
 	void OnTriggerEnter(Collider other)
 	{
-		if(other.tag == "Player") 
+		if(other.tag == "Block")
+		{
+			pc.throwObject = other.gameObject;
+		}
+		else if(other.tag == "Player") 
 		{
 			pc.Safety = true;
 			pc.otherPlayer = other.GetComponent<PlayerController>();
-		}
-		else if(other.tag == "Block")
-		{
-			pc.throwObject = other.gameObject;
 		}
 	}
 

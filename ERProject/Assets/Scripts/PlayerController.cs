@@ -52,20 +52,20 @@ public class PlayerController : MonoBehaviour {
 				move_X = GamePad01.LStick_X;
 				move_Z = GamePad01.LStick_Y;
 				Move(move_X, move_Z);
-				if(safety)
+				if(isCatch)
 				{
 					if(GamePad01.Fire)
-						Attack();
+						Throw();
 				}
 				else if(throwObject != null)
 				{
 					if(GamePad01.Fire)
 						Catch();
 				}
-				else if(isCatch)
+				else if(safety)
 				{
 					if(GamePad01.Fire)
-						Throw();
+						Attack();
 				}
 			}
 			else if(Players[1])
@@ -73,20 +73,20 @@ public class PlayerController : MonoBehaviour {
 				move_X = GamePad02.LStick_X;
 				move_Z = GamePad02.LStick_Y;
 				Move(move_X, move_Z);
-				if(safety)
+				if(isCatch)
 				{
 					if(GamePad02.Fire)
-						Attack();
+						Throw();
 				}
 				else if(throwObject != null)
 				{
 					if(GamePad02.Fire)
 						Catch();
 				}
-				else if(isCatch)
+				else if(safety)
 				{
 					if(GamePad02.Fire)
-						Throw();
+						Attack();
 				}
 			}
 		}
