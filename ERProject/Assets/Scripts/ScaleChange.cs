@@ -16,7 +16,7 @@ public class ScaleChange : MonoBehaviour {
 	void Update () {
 		
 	}
-    
+    /*
     void OnCollisionEnter(Collision col)
     {
         //TagがBlockかつ投げたブロックなら処理
@@ -35,4 +35,5 @@ public class ScaleChange : MonoBehaviour {
                        
         }
     }
+    */
 }

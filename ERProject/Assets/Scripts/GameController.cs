@@ -8,29 +8,22 @@ public class GameController : MonoBehaviour {
 	[SerializeField] PlayerController Player02; // 取得
 	[SerializeField] int startHp = 3; // 初期HP
     [SerializeField] float accel; // 移動の加速度
-    [SerializeField] float rotatePlus = 0.5f; // 回転の速度
     [SerializeField] float releaseTime; // 強化解除の時間
     [SerializeField] float respawnWait; // リスポーンまでの時間
-    [SerializeField] GameObject itemInstance; // 生成するアイテムのプレファブ
-	[SerializeField] int maximumValue; // 出現するアイテムの最大個数
+    [SerializeField] GameObject[] items; // 出現するアイテム
 	[SerializeField] int createTime; // アイテムの出現頻度（createTimeごとに出現)
     [SerializeField] GameObject graveInstance; // 墓のプレファブ
 	[SerializeField] GameObject winner; // ゲームオーバーで勝者を写すやつ
 	private int itemNum;
-	private int itemCount;
+	private int itemPos;
 	private float timeCount;
-	private GameObject[] itemObjects;
-	private Item[] item;
 	private Text winnerName; // 勝者の名前が入るやつ
     public bool gameOver = false; // いろんなところから変更するからpublicで
 	// Use this for initialization
 	void Start () {
 		winner.SetActive(false);
 		timeCount = 0;
-		itemCount = 0;
 		SetPlayer();
-        itemObjects = new GameObject[maximumValue];
-        item = new Item[maximumValue];
 		CreateItem();
 		winnerName = winner.GetComponent<Text>();
 	}
@@ -82,22 +75,21 @@ public class GameController : MonoBehaviour {
         Player01.ReleaseTime = releaseTime;
         Player01.RespawnWait = respawnWait;
         Player01.Accel = accel;
-        Player01.RotatePlus = rotatePlus;
 		Player02.HP = startHp;
         Player02.ReleaseTime = releaseTime;
         Player02.RespawnWait = respawnWait;
         Player02.Accel = accel;
-        Player02.RotatePlus = rotatePlus;
 	}
 
 	void CreateItem() // アイテムを生成してランダムに配置。アイテムの属性も同時に設定
 	{ 
         Debug.Log("アイテム生成");
 		itemNum = Random.Range(0, 3);
-		itemObjects[itemCount] = Instantiate(itemInstance, itemInstance.transform.position, Quaternion.Euler(0, 0, 0));
-		item[itemCount] = itemObjects[itemCount].GetComponent<Item>();
-		item[itemCount].ItemNum = 0;
-		itemCount++;
+		itemPos = Random.Range(0, items.Length);
+		items[itemPos].SetActive(true);
+		Debug.Log(items[itemPos]);
+		Item item = items[itemPos].GetComponent<Item>();
+		item.ItemNum = 1;
 	}
 
     void CreateGrave(Vector3 pos) // プレイヤーの残機が減った場所にオブジェクト生成

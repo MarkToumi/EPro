@@ -15,15 +15,11 @@ public class PlayerController : MonoBehaviour {
 	private bool safety; // Safety.csと連動
 	private float move_X;
 	private float move_Z;
-    private float rotate_X;
-    private float rotatePlus;
     private float accel;
     private float defaultAccel;
-    private float defaultRotate;
     private int pNums; // プレイヤーの数
 	private bool[] Players; // プレイヤーの対応パッド
-	private IEnumerator effectExit; // コルーチン使うなら
-    private IEnumerator respawn; // こっちの方が引数を２つ以上設定できるのでオヌヌメ
+    private IEnumerator respawn; // コルーチン使うならこっちの方が引数を２つ以上設定できるのでオヌヌメ
     private float releaseTime; // 強化解除時間
     private float respawnWait; // リスポーンまでの時間
 	private MeshRenderer mesh;
@@ -33,13 +29,13 @@ public class PlayerController : MonoBehaviour {
     private GameController gc;
     public PlayerController otherPlayer; // Safety.csと連動
 	public GameObject[] life;
+	public Item[] getItem;
 	// Use this for initialization
 	void Start () {
         gc = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameController>();
 		gameOver = false;
 		maxHp = hp;
         defaultAccel = accel;
-        defaultRotate = rotatePlus;
 		mesh = GetComponent<MeshRenderer>();
 		defaultColor = mesh.material.color;
 		alpha = new Color(0, 0, 0, 0);
@@ -50,7 +46,6 @@ public class PlayerController : MonoBehaviour {
             if (this.gameObject.name == "Player0" + (i + 1).ToString()) Players[i] = true;
             else Players[i] = false;
         }
-		effectExit = EffectExit(releaseTime);
         respawn = Respawn(respawnWait);
 	}
 	
@@ -62,8 +57,7 @@ public class PlayerController : MonoBehaviour {
 			{
 				move_X = GamePad01.LStick_X;
 				move_Z = GamePad01.LStick_Y;
-				rotate_X = GamePad01.RStick_X;
-				Move(move_X, move_Z, rotate_X);
+				Move(move_X, move_Z);
 				if(safety)
 				{
 					if(GamePad01.Fire)
@@ -74,8 +68,7 @@ public class PlayerController : MonoBehaviour {
 			{
 				move_X = GamePad02.LStick_X;
 				move_Z = GamePad02.LStick_Y;
-				rotate_X = GamePad02.RStick_X;
-				Move(move_X, move_Z, rotate_X);
+				Move(move_X, move_Z);
 				if(safety)
 				{
 					if(GamePad02.Fire)
@@ -101,7 +94,7 @@ public class PlayerController : MonoBehaviour {
 		*/
     }
 
-    void Move(float moveX, float moveZ, float rotateX)
+    void Move(float moveX, float moveZ)
 	{
         // 両方Ver.
 		if(moveX < -0.2f)
@@ -134,35 +127,6 @@ public class PlayerController : MonoBehaviour {
         */
 	}
 
-	void ItemUse(int itemNum)
-	{
-		switch(itemNum)
-        {
-		    case 0:
-			    Debug.Log("回復");
-			    hp++;
-			    break;
-		    case 1:
-			    Debug.Log("武器強化");
-			    StartCoroutine(effectExit);
-			    break;
-		    case 2:
-			    Debug.Log("高速化");
-			    StartCoroutine(effectExit);
-			    break;
-            case 3:
-                Debug.Log("未定");
-                StartCoroutine(effectExit);
-                break;
-            case 4:
-                Debug.Log("未定");
-                StartCoroutine(effectExit);
-                break;
-		    default:
-			    break;
-		}
-	}
-
 	void Attack() // 攻撃関係
     {
 		if(otherPlayer != null)
@@ -192,15 +156,6 @@ public class PlayerController : MonoBehaviour {
         transform.position = newPos;
     }
 
-	IEnumerator EffectExit(float delay) // 強化解除
-	 {
-        Debug.Log(delay);
-		yield return new WaitForSeconds(delay);
-        accel = defaultAccel;
-        rotatePlus = defaultRotate;
-		Debug.Log("強化解除");
-	 }
-
     IEnumerator Respawn(float delay) // コルーチンVer.
     {
         yield return new WaitForSeconds(delay);
@@ -208,11 +163,6 @@ public class PlayerController : MonoBehaviour {
         float z = Random.Range(-40f, 40f);
         Vector3 newPos = new Vector3(x, transform.position.y, z);
         transform.position = newPos;
-    }
-
-    public void EffectOut()
-    {
-        StartCoroutine(effectExit);
     }
 
     public void Resusitation() // リスポーン関係
@@ -243,6 +193,7 @@ public class PlayerController : MonoBehaviour {
 
 	public float ReleaseTime {
 		set { releaseTime = value; }
+		get { return releaseTime; }
 	 }
 
     public float RespawnWait {
@@ -254,10 +205,9 @@ public class PlayerController : MonoBehaviour {
         get { return this.accel; }
     }
 
-    public float RotatePlus {
-        set { rotatePlus = value; }
-        get { return this.rotatePlus; }
-    }
+	public float DefaultAccel {
+		get { return this.defaultAccel; }
+	}
 
 	public MeshRenderer Mesh {
 		get { return this.mesh; }

@@ -8,7 +8,6 @@ public class GroundController : MonoBehaviour {
 	[SerializeField] float coefficient;
 	private float timeCount;
 	private float maxHeight;
-	private float minHeight;
 	private int groundCount;
 	private GameObject[] grounds;
 	private bool dir;
@@ -20,7 +19,6 @@ public class GroundController : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		maxHeight = 5;
-		minHeight = -10;
 		groundCount = 0;
 		dir = false;
 		gc = GetComponent<GameController>();

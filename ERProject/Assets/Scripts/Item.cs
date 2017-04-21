@@ -23,7 +23,7 @@ public class Item : MonoBehaviour {
             player = other.gameObject.GetComponent<PlayerController>();
             ItemUse(player, itemNum);
             Debug.Log("当たった");
-            Destroy(this.gameObject);
+            this.gameObject.SetActive(false);
         }
     }
 
@@ -37,12 +37,11 @@ public class Item : MonoBehaviour {
                 break;
             case 1:
                 Debug.Log("加速");
-                pc.Accel = 1.5f;
-                pc.EffectOut();
+                pc.gameObject.AddComponent<Acceleration>();
                 break;
             case 2:
                 Debug.Log("強化");
-                pc.EffectOut();
+                //pc.gameObject.AddComponent
                 break;
             default:
                 break;
