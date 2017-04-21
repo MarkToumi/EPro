@@ -20,22 +20,14 @@ public class PlayerController : MonoBehaviour {
     private IEnumerator respawn; // コルーチン使うならこっちの方が引数を２つ以上設定できるのでオヌヌメ
     private float releaseTime; // 強化解除時間
     private float respawnWait; // リスポーンまでの時間
-	private MeshRenderer mesh;
-	private Color defaultColor;
-	private Color alpha;
-	private bool gameOver;
     private GameController gc;
     public PlayerController otherPlayer; // Safety.csと連動
 	public GameObject[] life;
-	public Item[] getItem;
+	public bool recovery = false;
 	// Use this for initialization
 	void Start () {
         gc = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameController>();
-		gameOver = false;
 		maxHp = hp;
-		mesh = GetComponent<MeshRenderer>();
-		defaultColor = mesh.material.color;
-		alpha = new Color(0, 0, 0, 0);
 		pNums = GameObject.FindGameObjectsWithTag("Player").Length;
         Players = new bool[pNums];
         for (int i = 0; i < pNums; i++)
@@ -133,16 +125,9 @@ public class PlayerController : MonoBehaviour {
 			otherPlayer.life[remaining].SetActive(false);
 		}
         if (otherPlayer.HP == 0)
-        {
             gc.gameOver = true;
-            otherPlayer.gameOver = true;
-        }
         else
-        {
-            MeshRenderer otherMesh = otherPlayer.Mesh;
-            otherMesh.material.color = alpha;
-            otherPlayer.Mesh = otherMesh;
-        }
+			recovery = true;
 	}
 
     void Respawn() // 関数Ver.
@@ -166,8 +151,7 @@ public class PlayerController : MonoBehaviour {
     {
         Respawn();
         //StartCoroutine(respawn);
-		mesh.material.color = defaultColor;
-        Debug.Log("kita");
+		recovery = false;
     }
 
     public int HP { 
@@ -184,10 +168,6 @@ public class PlayerController : MonoBehaviour {
 		get { return this.safety; }
 	 }
 
-	 public bool GameOver {
-		 get { return this.gameOver; }
-	 }
-
 	public float ReleaseTime {
 		set { releaseTime = value; }
 		get { return releaseTime; }
@@ -201,13 +181,4 @@ public class PlayerController : MonoBehaviour {
         set { accel = value; }
         get { return this.accel; }
     }
-
-	public MeshRenderer Mesh {
-		get { return this.mesh; }
-		set { mesh = value; }
-	}
-
-	public float getAlpha() {
-		return mesh.material.color.a;
-	}
 }

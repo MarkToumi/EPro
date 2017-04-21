@@ -37,14 +37,14 @@ public class GameController : MonoBehaviour {
 			timeCount = 0;
 		}
 
-        if (Player01.getAlpha() <= 0.1f)
+        if (Player01.recovery)
         {
             Vector3 playerPos = Player01.gameObject.transform.position;
             Player01.Resusitation();
             CreateGrave(playerPos); // キャラがいた位置にお墓を建てる
         }
 
-        if (Player02.getAlpha() <= 0.1f)
+        if (Player02.recovery)
         {
             Vector3 playerPos = Player02.gameObject.transform.position;
             Player02.Resusitation();
