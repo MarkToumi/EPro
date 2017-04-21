@@ -6,9 +6,11 @@ public class Acceleration : MonoBehaviour {
 
 	// Use this for initialization
 	private PlayerController pc;
+    private float accel;
 	private float releaseTime;
 	private IEnumerator effectExit;
 	void Start () {
+        accel = 1;
 		pc = GetComponent<PlayerController>();
 		releaseTime = pc.ReleaseTime;
 		effectExit = EffectExit(releaseTime);
@@ -22,14 +24,14 @@ public class Acceleration : MonoBehaviour {
 
 	void Accel()
 	{
-		pc.Accel += 1;
+		pc.Accel += accel;
 		StartCoroutine(effectExit);
 	}
 
 	IEnumerator EffectExit(float delay)
 	{
 		yield return new WaitForSeconds(delay);
-		pc.Accel = pc.DefaultAccel;
+        pc.Accel -= accel;
 		Destroy(this);
 	}
 }

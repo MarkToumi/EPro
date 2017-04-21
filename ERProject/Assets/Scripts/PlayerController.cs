@@ -15,7 +15,6 @@ public class PlayerController : MonoBehaviour {
 	private float move_X;
 	private float move_Z;
     private float accel;
-    private float defaultAccel;
     private int pNums; // プレイヤーの数
 	private bool[] Players; // プレイヤーの対応パッド
     private IEnumerator respawn; // コルーチン使うならこっちの方が引数を２つ以上設定できるのでオヌヌメ
@@ -34,7 +33,6 @@ public class PlayerController : MonoBehaviour {
         gc = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameController>();
 		gameOver = false;
 		maxHp = hp;
-        defaultAccel = accel;
 		mesh = GetComponent<MeshRenderer>();
 		defaultColor = mesh.material.color;
 		alpha = new Color(0, 0, 0, 0);
@@ -203,10 +201,6 @@ public class PlayerController : MonoBehaviour {
         set { accel = value; }
         get { return this.accel; }
     }
-
-	public float DefaultAccel {
-		get { return this.defaultAccel; }
-	}
 
 	public MeshRenderer Mesh {
 		get { return this.mesh; }
