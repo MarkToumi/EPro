@@ -5,12 +5,16 @@ using UnityEngine.UI;
 using GamePad;
 
 public class PlayerController : MonoBehaviour {
+	private const float UP = 0;
+	private const float DOWN = 180;
+	private const float RIGHT = 90;
+	private const float LEFT = 270;
 	private int hp;
 	private int oldHp;
 	private int maxHp;
 	private bool safety; // Safety.csと連動
 	private float move_X;
-	private float move_Y;
+	private float move_Z;
     private float rotate_X;
     private float rotatePlus;
     private float accel;
@@ -57,9 +61,9 @@ public class PlayerController : MonoBehaviour {
 			if(Players[0])
 			{
 				move_X = GamePad01.LStick_X;
-				move_Y = GamePad01.LStick_Y;
+				move_Z = GamePad01.LStick_Y;
 				rotate_X = GamePad01.RStick_X;
-				Move(move_X, move_Y, rotate_X);
+				Move(move_X, move_Z, rotate_X);
 				if(safety)
 				{
 					if(GamePad01.Fire)
@@ -69,9 +73,9 @@ public class PlayerController : MonoBehaviour {
 			else if(Players[1])
 			{
 				move_X = GamePad02.LStick_X;
-				move_Y = GamePad02.LStick_Y;
+				move_Z = GamePad02.LStick_Y;
 				rotate_X = GamePad02.RStick_X;
-				Move(move_X, move_Y, rotate_X);
+				Move(move_X, move_Z, rotate_X);
 				if(safety)
 				{
 					if(GamePad02.Fire)
@@ -97,13 +101,25 @@ public class PlayerController : MonoBehaviour {
 		*/
     }
 
-    void Move(float moveX, float moveY, float rotateX)
+    void Move(float moveX, float moveZ, float rotateX)
 	{
         // 両方Ver.
-
-        Vector3 newPos = new Vector3(transform.position.x + (moveX * accel), transform.position.y, transform.position.z + (moveY * accel));
+		if(moveX < -0.2f)
+			transform.rotation = Quaternion.Euler(new Vector3(0, LEFT, 0));
+		else if(moveX > 0.2f)
+			transform.rotation = Quaternion.Euler(new Vector3(0, RIGHT, 0));
+		else if(moveZ < -0.2f)
+			transform.rotation = Quaternion.Euler(new Vector3(0, DOWN, 0));
+		else if(moveZ > 0.2f)
+			transform.rotation = Quaternion.Euler(new Vector3(0, UP, 0));
+		float absX = Mathf.Abs(moveX);
+		float absZ = Mathf.Abs(moveZ);
+		if(absX < absZ)
+			moveX = 0;
+		else
+			moveZ = 0;
+        Vector3 newPos = new Vector3(transform.position.x + (moveX * accel), transform.position.y, transform.position.z + (moveZ * accel));
         transform.position = newPos;
-        transform.Rotate(0, rotateX, 0);
         
         // 片方Ver.1
         /*

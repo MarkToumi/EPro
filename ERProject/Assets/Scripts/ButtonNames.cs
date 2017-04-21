@@ -79,4 +79,10 @@ namespace GamePad
         public static float Y { get { return Input.GetAxis(vertical); } }
         public static bool Fire { get { return Input.GetButtonDown(fire); } }
     }
+
+    public class GamePadAll : MonoBehaviour
+    {
+        private static string gamepadAll = "GamePadAll";
+        public static bool ButtonDown{ get { return Input.GetButtonDown(gamepadAll); } }
+    }
 }
