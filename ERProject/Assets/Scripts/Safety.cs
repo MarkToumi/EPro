@@ -17,7 +17,7 @@ public class Safety : MonoBehaviour {
 	{
 		if(other.tag == "Block")
 		{
-			pc.throwObject = other.gameObject;
+			pc.catchObject = other.gameObject;
 		}
 		else if(other.tag == "Player") 
 		{
@@ -30,6 +30,6 @@ public class Safety : MonoBehaviour {
 	{
 		pc.Safety = false;
 		pc.otherPlayer = null;
-		pc.throwObject = null;
+		pc.catchObject = null;
 	}
 }

@@ -20,9 +20,9 @@ public class PlayerController : MonoBehaviour {
     private IEnumerator respawn; // コルーチン使うならこっちの方が引数を２つ以上設定できるのでオヌヌメ
     private float releaseTime; // 強化解除時間
     private float respawnWait; // リスポーンまでの時間
-	private GameObject child;
+    private GameObject throwObject;
     private GameController gc;
-	public GameObject throwObject;
+	public GameObject catchObject;
     public PlayerController otherPlayer; // Safety.csと連動
 	public GameObject[] life;
 	public bool recovery = false;
@@ -30,7 +30,6 @@ public class PlayerController : MonoBehaviour {
 	void Start () {
 		safety = false;
 		isCatch = false;
-		child = transform.GetChild(0).gameObject;
         gc = GameObject.Find("GameController").GetComponent<GameController>();
 		maxHp = hp;
 		pNums = GameObject.FindGameObjectsWithTag("Player").Length;
@@ -57,7 +56,7 @@ public class PlayerController : MonoBehaviour {
 					if(GamePad01.Fire)
 						Throw();
 				}
-				else if(throwObject != null)
+				else if(catchObject != null)
 				{
 					if(GamePad01.Fire)
 						Catch();
@@ -78,7 +77,7 @@ public class PlayerController : MonoBehaviour {
 					if(GamePad02.Fire)
 						Throw();
 				}
-				else if(throwObject != null)
+				else if(catchObject != null)
 				{
 					if(GamePad02.Fire)
 						Catch();
@@ -141,13 +140,15 @@ public class PlayerController : MonoBehaviour {
 
 	void Catch()
 	{
-		throwObject.transform.parent = child.transform;
+        throwObject = catchObject;
+		throwObject.transform.parent = transform;
 		isCatch = true;
 	}
 
 	void Throw()
 	{
 		throwObject.transform.parent = null;
+        throwObject = null;
 		isCatch = false;
 	}
 
