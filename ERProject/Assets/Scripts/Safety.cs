@@ -15,7 +15,7 @@ public class Safety : MonoBehaviour {
 	}
 	void OnTriggerEnter(Collider other)
 	{
-		if(other.tag == "Block")
+		if(other.tag == "Block" || other.tag == "Grave")
 		{
 			pc.catchObject = other.gameObject;
 		}

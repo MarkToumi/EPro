@@ -22,7 +22,8 @@ public class ScaleChange : MonoBehaviour {
         //TagがBlockかつ投げたブロックなら処理
         if(col.gameObject.GetComponent<TestHantei>().hantei == true)
         {
-            Destroy(col.gameObject);
+            //Destroy(col.gameObject);
+            col.gameObject.SetActive(false);
             if (gameObject.tag == "Block")
             {              
                 //スケールを2倍にする
@@ -30,7 +31,8 @@ public class ScaleChange : MonoBehaviour {
             }
             if(gameObject.tag == "Hakaishi")
             {
-                Destroy(gameObject);
+                //Destroy(gameObject);
+                gameObject.SetActive(false);
             }
                        
         }
