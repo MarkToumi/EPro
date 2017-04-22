@@ -4,32 +4,31 @@ using UnityEngine;
 
 public class Safety : MonoBehaviour {
 	private PlayerController pc;
+	private Ray ray;
 	// Use this for initialization
 	void Start () {
-		pc = this.GetComponentInParent<PlayerController>();
+		pc = this.GetComponent<PlayerController>();
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		
-	}
-	void OnTriggerEnter(Collider other)
-	{
-		if(other.tag == "Block" || other.tag == "Grave")
+		ray = new Ray(transform.position, transform.forward);
+		RaycastHit hit;
+		if(Physics.SphereCast(ray, 1f, out hit, 15f))
 		{
-			pc.catchObject = other.gameObject;
+			if(hit.collider.tag == "Block" || hit.collider.tag == "Grave")
+				pc.catchObject = hit.collider.gameObject;
+			else if(hit.collider.tag == "Player")
+			{
+				pc.Safety = true;
+				pc.otherPlayer = hit.collider.GetComponent<PlayerController>();
+			}
 		}
-		else if(other.tag == "Player") 
+		else
 		{
-			pc.Safety = true;
-			pc.otherPlayer = other.GetComponent<PlayerController>();
+			pc.Safety = false;
+			pc.otherPlayer = null;
+			pc.catchObject = null;
 		}
-	}
-
-	void OnTriggerExit(Collider other)
-	{
-		pc.Safety = false;
-		pc.otherPlayer = null;
-		pc.catchObject = null;
 	}
 }
