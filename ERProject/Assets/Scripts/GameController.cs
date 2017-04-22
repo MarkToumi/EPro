@@ -18,10 +18,9 @@ public class GameController : MonoBehaviour {
 	private int itemCount;
 	private float timeCount;
 	private Text winnerName; // 勝者の名前が入るやつ
-    public bool gameOver = false; // いろんなところから変更するからpublicで
+    public bool gameOver = false; // いろんなところから変更、参照するからpublicで
 	// Use this for initialization
 	void Start () {
-		winner.SetActive(false);
 		timeCount = 0;
 		itemCount = 0;
 		SetPlayer();
@@ -38,14 +37,14 @@ public class GameController : MonoBehaviour {
 			timeCount = 0;
 		}
 
-        if (Player01.recovery)
+        if (Player01.Recovery)
         {
             Vector3 playerPos = Player01.gameObject.transform.position;
             Player01.Resusitation();
             CreateGrave(playerPos); // キャラがいた位置にお墓を建てる
         }
 
-        if (Player02.recovery)
+        if (Player02.Recovery)
         {
             Vector3 playerPos = Player02.gameObject.transform.position;
             Player02.Resusitation();
@@ -56,18 +55,11 @@ public class GameController : MonoBehaviour {
 		{
 			winner.SetActive(true);
 			if(Player01.HP > Player02.HP)
-			{
 				winnerName.text = "プレイヤー１の勝利！";
-			}
 			else if(Player02.HP > Player01.HP)
-			{
 				winnerName.text = "プレイヤー２の勝利！";
-			}
 			else if(Player01.HP == Player02.HP)
-			{
 				winnerName.text = "引き分け！";
-			}
-            Debug.Log("ゲーム終了");
 		}
 	}
 	void SetPlayer() // 各プレイヤーに初期設定

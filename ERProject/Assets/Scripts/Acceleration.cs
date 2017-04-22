@@ -18,10 +18,6 @@ public class Acceleration : MonoBehaviour {
 	}
 	
 	// Update is called once per frame
-	void Update () {
-		
-	}
-
 	void Accel()
 	{
 		pc.Accel += accel;

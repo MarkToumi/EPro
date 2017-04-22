@@ -11,7 +11,7 @@ public class PlayerController : MonoBehaviour {
 	private int hp;
 	private int maxHp;
 	private bool safety; // Safety.csと連動
-	private bool isCatch;
+	private bool isCatch; // Saftey.csと連動
 	private float move_X;
 	private float move_Z;
     private float accel;
@@ -20,17 +20,20 @@ public class PlayerController : MonoBehaviour {
     private IEnumerator respawn; // コルーチン使うならこっちの方が引数を２つ以上設定できるのでオヌヌメ
     private float releaseTime; // 強化解除時間
     private float respawnWait; // リスポーンまでの時間
+	private bool recovery;
     private GameObject throwObject;
     private GameController gc;
-	public GameObject catchObject;
+	private Safety sf;
     public PlayerController otherPlayer; // Safety.csと連動
+	public GameObject catchObject; // Safety.csと連動
 	public GameObject[] life;
-	public bool recovery = false;
 	// Use this for initialization
 	void Start () {
 		safety = false;
 		isCatch = false;
+		recovery = false;
         gc = GameObject.Find("GameController").GetComponent<GameController>();
+		sf = GetComponent<Safety>();
 		maxHp = hp;
 		pNums = GameObject.FindGameObjectsWithTag("Player").Length;
         Players = new bool[pNums];
@@ -51,19 +54,14 @@ public class PlayerController : MonoBehaviour {
 				move_X = GamePad01.LStick_X;
 				move_Z = GamePad01.LStick_Y;
 				Move(move_X, move_Z);
-				if(isCatch)
+				if(GamePad01.Fire)
 				{
-					if(GamePad01.Fire)
+					sf.Ray();
+					if(isCatch)
 						Throw();
-				}
-				else if(catchObject != null)
-				{
-					if(GamePad01.Fire)
+					else if(catchObject != null)
 						Catch();
-				}
-				else if(safety)
-				{
-					if(GamePad01.Fire)
+					else if(safety)
 						Attack();
 				}
 			}
@@ -72,36 +70,19 @@ public class PlayerController : MonoBehaviour {
 				move_X = GamePad02.LStick_X;
 				move_Z = GamePad02.LStick_Y;
 				Move(move_X, move_Z);
-				if(isCatch)
+				if(GamePad02.Fire)
 				{
-					if(GamePad02.Fire)
+					sf.Ray();
+					if(isCatch)
 						Throw();
-				}
-				else if(catchObject != null)
-				{
-					if(GamePad02.Fire)
+					else if(catchObject != null)
 						Catch();
-				}
-				else if(safety)
-				{
-					if(GamePad02.Fire)
+					else if(safety)
 						Attack();
 				}
 			}
 		}
 	}
-
-    void OnTriggerEnter(Collider other)
-    {
-		/*
-        if(other.gameObject.tag == "Item"){
-            Debug.Log("アイテムゲット&使用 コライダー");
-            Item item = other.gameObject.GetComponent<Item>();
-            ItemUse(item.ItemNum);
-            Destroy(other.gameObject);
-        }
-		*/
-    }
 
     void Move(float moveX, float moveZ)
 	{
@@ -135,12 +116,15 @@ public class PlayerController : MonoBehaviour {
         if (otherPlayer.HP == 0)
             gc.gameOver = true;
         else
-			otherPlayer.recovery = true;
+			otherPlayer.Recovery = true;
+		otherPlayer = null;
+		safety = false;
 	}
 
 	void Catch()
 	{
         throwObject = catchObject;
+		catchObject = null;
 		throwObject.transform.parent = transform;
 		isCatch = true;
 	}
@@ -190,14 +174,14 @@ public class PlayerController : MonoBehaviour {
 		get { return this.safety; }
 	 }
 
-	 public bool IsCatch {
-		 set { isCatch = value; }
-		 get { return this.isCatch; }
+	 public bool Recovery {
+		 set { recovery = value; }
+		 get { return this.recovery; }
 	 }
 
 	public float ReleaseTime {
 		set { releaseTime = value; }
-		get { return releaseTime; }
+		get { return this.releaseTime; }
 	 }
 
     public float RespawnWait {

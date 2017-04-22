@@ -11,7 +11,8 @@ public class Safety : MonoBehaviour {
 	}
 	
 	// Update is called once per frame
-	void Update () {
+	public void Ray()
+	{
 		ray = new Ray(transform.position, transform.forward);
 		RaycastHit hit;
 		if(Physics.SphereCast(ray, 1f, out hit, 15f))
