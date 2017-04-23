@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class Item : MonoBehaviour {
 	private int itemNum;
@@ -9,11 +7,6 @@ public class Item : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         heal = 1;
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
 	}
 
     void OnTriggerEnter(Collider other)
@@ -40,7 +33,7 @@ public class Item : MonoBehaviour {
                 break;
             case 2:
                 Debug.Log("強化");
-                //pc.gameObject.AddComponent
+                player.gameObject.AddComponent<RaisePower>();
                 break;
             default:
                 break;

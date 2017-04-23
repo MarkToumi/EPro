@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -11,32 +10,25 @@ public class GameController : MonoBehaviour {
     [SerializeField] float releaseTime; // 強化解除の時間
     [SerializeField] float respawnWait; // リスポーンまでの時間
     [SerializeField] GameObject[] items; // 出現するアイテム
-	[SerializeField] int createTime; // アイテムの出現頻度（createTimeごとに出現)
+	[SerializeField] float createTime; // アイテムの出現頻度（createTimeごとに出現)
     [SerializeField] GameObject graveInstance; // 墓のプレファブ
 	[SerializeField] GameObject winner; // ゲームオーバーで勝者を写すやつ
 	private int itemNum;
 	private int itemCount;
-	private float timeCount;
+	private IEnumerator createItem;
 	private Text winnerName; // 勝者の名前が入るやつ
     public bool gameOver = false; // いろんなところから変更、参照するからpublicで
 	// Use this for initialization
 	void Start () {
-		timeCount = 0;
 		itemCount = 0;
 		SetPlayer();
-		CreateItem();
+        createItem = CreateItem(createTime);
+        StartCoroutine(createItem);
 		winnerName = winner.GetComponent<Text>();
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		timeCount += Time.deltaTime;
-		if(createTime == (int)timeCount && !gameOver)
-		{
-			CreateItem();
-			timeCount = 0;
-		}
-
         if (Player01.Recovery)
         {
             Vector3 playerPos = Player01.gameObject.transform.position;
@@ -74,16 +66,19 @@ public class GameController : MonoBehaviour {
         Player02.Accel = accel;
 	}
 
-	void CreateItem() // アイテムを生成してランダムに配置。アイテムの属性も同時に設定
-	{ 
-        Debug.Log("アイテム生成");
-		itemNum = Random.Range(0, 3);
-		items[itemCount].SetActive(true);
-		Item item = items[itemCount].GetComponent<Item>();
-		item.ItemNum = itemNum;
-		itemCount++;
-		itemCount %= items.Length;
-	}
+    IEnumerator CreateItem(float delay)
+    {
+        while(true)
+        {
+            yield return new WaitForSeconds(delay);
+            itemNum = Random.Range(0, 3);
+            items[itemCount].SetActive(true);
+            Item item = items[itemCount].GetComponent<Item>();
+            item.ItemNum = itemNum;
+            itemCount++;
+            itemCount %= items.Length;
+        }
+    }
 
     void CreateGrave(Vector3 pos) // プレイヤーの残機が減った場所にオブジェクト生成
     {

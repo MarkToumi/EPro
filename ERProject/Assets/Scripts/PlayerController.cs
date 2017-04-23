@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using GamePad;
 
@@ -109,9 +108,8 @@ public class PlayerController : MonoBehaviour {
     {
 		if(otherPlayer != null)
 		{
-			int remaining = otherPlayer.HP -1;
 			otherPlayer.HP -= 1;
-			otherPlayer.life[remaining].SetActive(false);
+			otherPlayer.life[otherPlayer.HP].SetActive(false);
 		}
         if (otherPlayer.HP == 0)
             gc.gameOver = true;
@@ -160,6 +158,7 @@ public class PlayerController : MonoBehaviour {
 		recovery = false;
     }
 
+    // プレイヤー側でインスペクターからいじれそうに見えるのが嫌なのでprivateとセッター&ゲッターを使用
     public int HP { 
 		set { hp = value; }
 		get { return this.hp; }

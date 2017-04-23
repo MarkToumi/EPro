@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Acceleration : MonoBehaviour {
@@ -7,13 +6,11 @@ public class Acceleration : MonoBehaviour {
 	// Use this for initialization
 	private PlayerController pc;
     private float accel;
-	private float releaseTime;
 	private IEnumerator effectExit;
 	void Start () {
         accel = 1;
 		pc = GetComponent<PlayerController>();
-		releaseTime = pc.ReleaseTime;
-		effectExit = EffectExit(releaseTime);
+		effectExit = EffectExit(pc.ReleaseTime);
 		Accel();
 	}
 	
@@ -28,6 +25,7 @@ public class Acceleration : MonoBehaviour {
 	{
 		yield return new WaitForSeconds(delay);
         pc.Accel -= accel;
+        // this.enabled = false; // 現状デストロイの方が分かりやすいが、軽いならこちらに切り替え予定
 		Destroy(this);
 	}
 }
