@@ -11,6 +11,7 @@ public class PlayerController : MonoBehaviour {
 	private int maxHp;
 	private bool safety; // Safety.csと連動
 	private bool isCatch; // Saftey.csと連動
+	private float throwPower;
 	private float move_X;
 	private float move_Z;
     private float accel;
@@ -129,6 +130,12 @@ public class PlayerController : MonoBehaviour {
 
 	void Throw()
 	{
+		Rigidbody rb = throwObject.GetComponent<Rigidbody>();
+		if(!rb)
+			rb = throwObject.AddComponent<Rigidbody>();
+		rb.useGravity = true;
+		rb.isKinematic = false;
+		rb.AddForce(transform.TransformDirection(Vector3.forward) + transform.TransformDirection(Vector3.up) / 2 * throwPower);
 		throwObject.transform.parent = null;
         throwObject = null;
 		isCatch = false;
@@ -191,4 +198,9 @@ public class PlayerController : MonoBehaviour {
         set { accel = value; }
         get { return this.accel; }
     }
+
+	public float ThrowPower {
+		set { throwPower = value; }
+		get { return this.ThrowPower; }
+	}
 }

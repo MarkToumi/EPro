@@ -7,6 +7,7 @@ public class GameController : MonoBehaviour {
 	[SerializeField] PlayerController Player02; // 取得
 	[SerializeField] int startHp = 3; // 初期HP
     [SerializeField] float accel; // 移動の加速度
+	[SerializeField] float throwPower; // 投げる力
     [SerializeField] float releaseTime; // 強化解除の時間
     [SerializeField] float respawnWait; // リスポーンまでの時間
     [SerializeField] GameObject[] items; // 出現するアイテム
@@ -60,10 +61,12 @@ public class GameController : MonoBehaviour {
         Player01.ReleaseTime = releaseTime;
         Player01.RespawnWait = respawnWait;
         Player01.Accel = accel;
+		Player01.ThrowPower = throwPower;
 		Player02.HP = startHp;
         Player02.ReleaseTime = releaseTime;
         Player02.RespawnWait = respawnWait;
         Player02.Accel = accel;
+		Player02.ThrowPower = throwPower;
 	}
 
     IEnumerator CreateItem(float delay)
